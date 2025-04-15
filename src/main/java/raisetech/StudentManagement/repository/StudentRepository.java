@@ -2,11 +2,11 @@ package raisetech.StudentManagement.repository;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourses;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -23,12 +23,14 @@ public interface StudentRepository {
     @Select("SELECT * FROM students_courses")
     List<StudentCourses> searchStudentCourses();
 
-    @Insert("INSERT INTO student(id, name, kana_name, nickname, email, area, age, sex, remark, isDeleted) " +
-            "VALUES(#{id}, #{name}, #{kanaName}, #{nickname}, #{email}, #{area}, #{age}, #{sex}, #{remark}, NULL)")
-    void newRegisterStudent(String id, String name, String kanaName, String nickname, String email, String area, int age, String sex, String remark);
+    @Insert("INSERT INTO student(name, kana_name, nickname, email, area, age, sex, remark, isDeleted) " +
+            "VALUES(#{name}, #{kanaName}, #{nickname}, #{email}, #{area}, #{age}, #{sex}, #{remark}, NULL)")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void registerStudent(Student student);
 
-    @Insert("INSERT INTO students_courses(id, student_id, course_name,course_start,course_end) " +
-            "VALUES(#{id}, #{studentId}, #{courseName}, #{courseStart}, #{courseEnd})")
-    void newRegisterStudentCourses(String id, String studentId, String courseName, LocalDateTime courseStart, LocalDateTime courseEnd);
+    @Insert("INSERT INTO students_courses( student_id, course_name,course_start,course_end) " +
+            "VALUES(#{studentId}, #{courseName}, #{courseStart}, #{courseEnd})")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void registerStudentCourses(StudentCourses studentCourses);
 
 }

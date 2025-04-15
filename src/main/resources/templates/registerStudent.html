@@ -7,10 +7,6 @@
 <h1>受講生登録</h1>
 <form th:action="@{/registerStudent}" th:object="${studentDetail}" method="post">
     <div>
-        <label for="id">ID</label>
-        <input type="text" id="id" th:field="*{student.id}" required/>
-    </div>
-    <div>
         <label for="name">名前</label>
         <input type="text" id="name" th:field="*{student.name}" required/>
     </div>
@@ -32,20 +28,21 @@
     </div>
     <div>
         <label for="age">年齢</label>
-        <input type="text" id="age" th:field="*{student.age}" required/>
+        <input type="text" id="age" th:field="*{student.age}"/>
     </div>
     <div>
         <label for="sex">性別</label>
-        <input type="text" id="sex" th:field="*{student.sex}" required/>
+        <input type="text" id="sex" th:field="*{student.sex}"/>
     </div>
-    <div>
-        <label for="courseName">コース</label>
-        <input type="text" id="courseName" th:field="*{StudentCourses[0].courseName}" required/>
+    <div th:each="course,stat : *{studentCourses}">
+        <label for="courseName" th:for="studentCourses.__${stat.index}__.courseName">受講コース名</label>
+        <input type="text" id="courseName"
+               th:id="studentCourses.__${stat.index}__.courseName"
+               th:field="*{studentCourses[__${stat.index}__].courseName}"/>
     </div>
-    <p>開始日時: <span th:text="tesutzikan"></span></p>
     <div>
         <label for="remark">備考</label>
-        <input type="text" id="remark" th:field="*{student.remark}" required/>
+        <input type="text" id="remark" th:field="*{student.remark}"/>
     </div>
     <div>
         <button type="submit">登録</button>

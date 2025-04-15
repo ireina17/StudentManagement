@@ -2,9 +2,10 @@ package raisetech.StudentManagement.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourses;
+import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
 import java.time.LocalDateTime;
@@ -20,34 +21,25 @@ public class StudentService {
         this.repository = repository;
     }
 
-    @GetMapping("/StudentList")
     public List<Student> searchStudentList() {
         return repository.search();
     }
 
-    @GetMapping("/StudentCoursesList")
     public List<StudentCourses> searchStudentCoursesList() {
         return repository.searchStudentCourses();
     }
 
-    @GetMapping("/registerStudent")
-    public void newStudent(Student student, List<StudentCourses> studentCourses) {
+    @Transactional
+    public void newStudent(StudentDetail studentDetail) {
 
-        //htmlでデフォルトに期間を設定が必要。コースによって変動も必要
-        StudentCourses studentCourse = studentCourses.get(0);
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime endDateTime = currentDateTime.plusMonths(4);
-
-        //set 何かしらのID取得が必要
-        studentCourse.setId("9");
-
-        //set
-        studentCourse.setStudentId(student.getId());
-        studentCourse.setCourseStart(LocalDateTime.now());
-        studentCourse.setCourseEnd(endDateTime);
-
-        repository.newRegisterStudent(student.getId(), student.getName(), student.getKanaName(), student.getNickname(), student.getEmail(), student.getArea(), student.getAge(), student.getSex(), student.getRemark());
-        repository.newRegisterStudentCourses(studentCourse.getId(), studentCourse.getStudentId(), studentCourse.getCourseName(), studentCourse.getCourseStart(), studentCourse.getCourseEnd());
+        repository.registerStudent(studentDetail.getStudent());
+        //TODO:コース登録を行う
+        for (StudentCourses studentCourse : studentDetail.getStudentCourses()) {
+            studentCourse.setStudentId(studentDetail.getStudent().getId());
+            studentCourse.setCourseStart(LocalDateTime.now());
+            studentCourse.setCourseEnd(LocalDateTime.now().plusYears(1));
+            repository.registerStudentCourses(studentCourse);
+        }
     }
 
 }
