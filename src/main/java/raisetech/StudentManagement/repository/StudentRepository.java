@@ -1,9 +1,6 @@
 package raisetech.StudentManagement.repository;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourses;
 
@@ -20,11 +17,18 @@ public interface StudentRepository {
     @Select("SELECT * FROM student")
     List<Student> search();
 
-    @Select("SELECT * FROM students_courses")
-    List<StudentCourses> searchStudentCourses();
+    @Select("SELECT * FROM student WHERE id =#{id}")
+    Student searchStudent(String id);
 
-    @Insert("INSERT INTO student(name, kana_name, nickname, email, area, age, sex, remark, isDeleted) " +
-            "VALUES(#{name}, #{kanaName}, #{nickname}, #{email}, #{area}, #{age}, #{sex}, #{remark}, NULL)")
+    @Select("SELECT * FROM students_courses")
+    List<StudentCourses> searchStudentCoursesList();
+
+    @Select("SELECT * FROM students_courses WHERE student_id =#{studentId}")
+    List<StudentCourses> searchStudentCourses(String studentId);
+
+
+    @Insert("INSERT INTO student(name, kana_name, nickname, email, area, age, sex, remark, is_Deleted) " +
+            "VALUES(#{name}, #{kanaName}, #{nickname}, #{email}, #{area}, #{age}, #{sex}, #{remark}, false)")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void registerStudent(Student student);
 
@@ -32,5 +36,11 @@ public interface StudentRepository {
             "VALUES(#{studentId}, #{courseName}, #{courseStart}, #{courseEnd})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void registerStudentCourses(StudentCourses studentCourses);
+
+    @Update("UPDATE student SET name=#{name}, kana_name =#{kanaName}, nickname=#{nickname}, email=#{email}, area=#{area}, age=#{age}, sex=#{sex}, remark=#{remark}, is_Deleted=#{isDeleted} WHERE id=#{id}")
+    void updateStudent(Student student);
+
+    @Update("UPDATE students_courses SET course_name=#{courseName} WHERE id =#{id} ")
+    void updateStudentCourses(StudentCourses studentCourses);
 
 }

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import raisetech.StudentManagement.controller.converte.StudentConvert;
 import raisetech.StudentManagement.data.Student;
@@ -37,9 +38,11 @@ public class StudentController {
         return "studentList";
     }
 
-    @GetMapping("/studentCoursesList")
-    public List<StudentCourses> getStudentCoursesList() {
-        return service.searchStudentCoursesList();
+    @GetMapping("/student/{id}")
+    public String getStudent(@PathVariable String id, Model model) {
+        StudentDetail studentDetail = service.searchStudent(id);
+        model.addAttribute("studentDetail", studentDetail);
+        return "updateStudent";
     }
 
     @GetMapping("/newStudent")
@@ -60,23 +63,15 @@ public class StudentController {
         return "redirect:/studentList";
     }
 
-    //updeta 解説
-    //受講生更新ページ　a=tag
-    //id情報で検索して取れてきたデータを入力して更新をする
-
-    @GetMapping("/searchIdStudent")
-    public String updateIdStudent(Model model) {
-        model.addAttribute("studentDetail", new StudentDetail());
-        return "updateStudent";
-    }
-
     @PostMapping("/updateStudent")
     public String updateStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
         if (result.hasErrors()) {
             return "updateStudent";
         }
 
-        service.newStudent(studentDetail);
-        return "updateStudent:/studentList";
+        service.updateStudent(studentDetail);
+        return "redirect:/studentList";
     }
+
+
 }

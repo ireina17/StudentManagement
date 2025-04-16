@@ -16,16 +16,12 @@ public class StudentConvert {
         List<StudentDetail> studentDetails = new ArrayList<>();
         for (Student student : students) {
             StudentDetail studentDetail = new StudentDetail();
-            if (!student.isDeleted()) {
-                studentDetail.setStudent(student);
-
-                List<StudentCourses> convertStudentCourses = studentCourses.stream()
-                        .filter(studentCourse -> student.getId().equals(studentCourse.getStudentId()))
-                        .collect(Collectors.toList());
-
-                studentDetail.setStudentCourses(convertStudentCourses);
-                studentDetails.add(studentDetail);
-            }
+            studentDetail.setStudent(student);
+            List<StudentCourses> convertStudentCourses = studentCourses.stream()
+                    .filter(studentCourse -> student.getId().equals(studentCourse.getStudentId()))
+                    .collect(Collectors.toList());
+            studentDetail.setStudentCourses(convertStudentCourses);
+            studentDetails.add(studentDetail);
         }
         return studentDetails;
     }
