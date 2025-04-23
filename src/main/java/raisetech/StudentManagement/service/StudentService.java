@@ -7,6 +7,7 @@ import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
+import raisetech.StudentManagement.exception.StudentNotFoundException;
 import raisetech.StudentManagement.repository.StudentRepository;
 
 import java.time.LocalDateTime;
@@ -49,6 +50,9 @@ public class StudentService {
      */
     public StudentDetail searchStudent(String id) {
         Student student = repository.searchStudent(id);
+        if (student == null) {
+            throw new StudentNotFoundException(id);
+        }
         List<StudentCourse> studentCourse = repository.searchStudentCourse(student.getId());
         return new StudentDetail(student, studentCourse);
     }
