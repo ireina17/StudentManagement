@@ -2,12 +2,12 @@ package raisetech.StudentManagement.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import raisetech.StudentManagement.domain.StudentDetail;
+import raisetech.StudentManagement.exception.NotFoundException;
 import raisetech.StudentManagement.service.StudentService;
 
 import java.util.List;
@@ -47,7 +47,10 @@ public class StudentController {
      */
     @Operation(summary = "受講生検索", description = "受講生のID検索を行います。")
     @GetMapping("/student/{id}")
-    public StudentDetail getStudent(@PathVariable @NotBlank String id) {
+    public StudentDetail getStudent(@PathVariable String id) {
+        if (!id.matches("\\d+$")) {
+            throw new IllegalArgumentException("受講生IDは数字のみ入力するようにしてください。");
+        }
         return service.searchStudent(id);
     }
 
@@ -76,5 +79,10 @@ public class StudentController {
     public ResponseEntity<String> updateStudent(@RequestBody @Valid StudentDetail studentDetail) {
         service.updateStudent(studentDetail);
         return ResponseEntity.ok("更新処理が成功しました。");
+    }
+
+    @GetMapping("/exception")
+    public ResponseEntity<String> throwException() throws NotFoundException {
+        throw new NotFoundException("このAPIは現在使用できません。古いURLとなっています。");
     }
 }
