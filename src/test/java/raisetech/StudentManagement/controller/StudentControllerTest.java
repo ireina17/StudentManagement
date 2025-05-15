@@ -1,6 +1,5 @@
 package raisetech.StudentManagement.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -36,9 +35,6 @@ class StudentControllerTest {
     @MockBean
     private StudentService service;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Test
@@ -62,8 +58,6 @@ class StudentControllerTest {
         verify(service, Mockito.times(1)).searchStudent(id);
     }
 
-
-    //数字意外だった場合
     @Test
     void 受講生詳細の受講生ID検索が数字以外入力時に異常が発生すること() throws Exception {
         String id = "テストです。";

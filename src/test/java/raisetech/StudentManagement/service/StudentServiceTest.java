@@ -52,9 +52,6 @@ class StudentServiceTest {
         verify(converter, Mockito.times(1)).convertStudentDetails(studentList, studentCourseList);
     }
 
-    //----------------課題----------------
-
-    //searchStudent
     @Test
     void 受講生検索_リポジトリとコンバーターの処理が適切に呼び出せてること() {
 
@@ -75,8 +72,7 @@ class StudentServiceTest {
         verify(repository, Mockito.times(1)).searchStudentCourse(id);
         Assertions.assertEquals(expected.getStudent().getId(), actual.getStudent().getId());
     }
-
-    //registerStudent
+    
     @Test
     void 受講生詳細登録_リポジトリとコンバーターの処理が適切に呼び出せてること() {
         Student student = new Student();
