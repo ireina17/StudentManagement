@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import raisetech.StudentManagement.exception.AccessNotFoundException;
+import raisetech.StudentManagement.exception.ConnectionRefusedException;
 import raisetech.StudentManagement.exception.StudentNotFoundException;
 
 @RestControllerAdvice
@@ -16,8 +16,8 @@ public class ExceptionHandle {
                 .body("エラーが発生しました: " + ex.getMessage());
     }
 
-    @ExceptionHandler(AccessNotFoundException.class)
-    public ResponseEntity<String> handleAccessNotFoundException(AccessNotFoundException ex) {
+    @ExceptionHandler(ConnectionRefusedException.class)
+    public ResponseEntity<String> handleConnectionRefusedException(ConnectionRefusedException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ex.getMessage());
