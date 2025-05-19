@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import raisetech.StudentManagement.exception.ConnectionRefusedException;
 import raisetech.StudentManagement.exception.StudentNotFoundException;
+import raisetech.StudentManagement.exception.UnavailableApiVersionException;
 
 @RestControllerAdvice
 public class ExceptionHandle {
@@ -16,8 +16,8 @@ public class ExceptionHandle {
                 .body("エラーが発生しました: " + ex.getMessage());
     }
 
-    @ExceptionHandler(ConnectionRefusedException.class)
-    public ResponseEntity<String> handleConnectionRefusedException(ConnectionRefusedException ex) {
+    @ExceptionHandler(UnavailableApiVersionException.class)
+    public ResponseEntity<String> handleUnavailableApiVersionException(UnavailableApiVersionException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ex.getMessage());
