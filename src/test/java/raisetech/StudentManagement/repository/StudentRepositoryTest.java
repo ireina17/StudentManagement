@@ -114,7 +114,6 @@ class StudentRepositoryTest {
 
     @Test
     void 受講生コースを更新できること() {
-        LocalDateTime now = LocalDateTime.now();
         StudentCourse expected = new StudentCourse();
         expected.setId("1");
         expected.setStudentId("1");
