@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import raisetech.StudentManagement.domain.StudentDetail;
-import raisetech.StudentManagement.exception.NotFoundException;
+import raisetech.StudentManagement.exception.UnavailableApiVersionException;
 import raisetech.StudentManagement.service.StudentService;
 
 import java.util.List;
@@ -82,7 +82,7 @@ public class StudentController {
     }
 
     @GetMapping("/exception")
-    public ResponseEntity<String> throwException() throws NotFoundException {
-        throw new NotFoundException("このAPIは現在使用できません。古いURLとなっています。");
+    public ResponseEntity<String> throwException() throws UnavailableApiVersionException {
+        throw new UnavailableApiVersionException("このAPIは現在使用できません。古いURLとなっています。");
     }
 }
