@@ -1,4 +1,4 @@
-INSERT INTO student (name, kana_name, nickname, email, area, age, sex,remark,is_Deleted) VALUES
+INSERT INTO student (name, kana_name, nickname, email, area, age, sex,remark,is_deleted) VALUES
     ('佐藤太郎', 'サトウタロウ', 'たろう', 'taro.sato@example.com', '東京', 20, '男性','',false),
     ('鈴木花子', 'スズキハナコ', 'ハナコ', 'hanako.suzuki@example.com', '大阪', 32, '女性','',false),
     ('高橋一郎', 'タカハシイチロウ', 'イチ', 'ichiro.takahashi@example.com', '愛知', 22, '男性','',false),
