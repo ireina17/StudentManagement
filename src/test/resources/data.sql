@@ -1,9 +1,9 @@
-INSERT INTO student (name, kana_name, nickname, email, area, age, sex) VALUES
-    ('佐藤太郎', 'サトウタロウ', 'たろう', 'taro.sato@example.com', '東京', 20, '男性'),
-    ('鈴木花子', 'スズキハナコ', 'ハナコ', 'hanako.suzuki@example.com', '大阪', 32, '女性'),
-    ('高橋一郎', 'タカハシイチロウ', 'イチ', 'ichiro.takahashi@example.com', '愛知', 22, '男性'),
-    ('田中美咲', 'タナカミサキ', 'ミサキ', 'misaki.tanaka@example.com', '福岡', 19, '女性'),
-    ('伊藤健', 'イトウケン', 'ケン', 'ken.ito@example.com', '北海道', 40, 'その他');
+INSERT INTO student (name, kana_name, nickname, email, area, age, sex,remark,is_Deleted) VALUES
+    ('佐藤太郎', 'サトウタロウ', 'たろう', 'taro.sato@example.com', '東京', 20, '男性','',false),
+    ('鈴木花子', 'スズキハナコ', 'ハナコ', 'hanako.suzuki@example.com', '大阪', 32, '女性','',false),
+    ('高橋一郎', 'タカハシイチロウ', 'イチ', 'ichiro.takahashi@example.com', '愛知', 22, '男性','',false),
+    ('田中美咲', 'タナカミサキ', 'ミサキ', 'misaki.tanaka@example.com', '福岡', 19, '女性','',false),
+    ('伊藤健', 'イトウケン', 'ケン', 'ken.ito@example.com', '北海道', 40, 'その他','',false);
 
 INSERT INTO students_courses (student_id, course_name, course_start, course_end) VALUES
     ('1', 'JAVAコース', '2024-04-01 09:00:00', '2025-04-01 09:00:00'),
