@@ -11,12 +11,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,12 +52,12 @@ class StudentControllerTest {
     void 受講生詳細の受講生ID検索が実行できて空のリストが返ってくること() throws Exception {
         String id = "999";
         StudentDetail studentDetail = new StudentDetail();
-        when(service.searchStudent(id)).thenReturn(new StudentDetail());
+        when(service.searchStudentId(id)).thenReturn(new StudentDetail());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/student/{id}", id))
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/id={id}", id))
                 .andExpect(status().isOk());
 
-        verify(service, Mockito.times(1)).searchStudent(id);
+        verify(service, Mockito.times(1)).searchStudentId(id);
     }
 
     @Test
@@ -63,9 +65,138 @@ class StudentControllerTest {
         String id = "テストです。";
         StudentDetail studentDetail = new StudentDetail();
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/student/{id}", id))
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/id={id}", id))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("受講生IDは数字のみ入力するようにしてください。"));
+    }
+
+    @Test
+    void 受講生詳細の受講生名前検索が実行できて空のリストが返ってくること() throws Exception {
+        String name = "田中太郎";
+        when(service.searchStudentName(name)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/name={name}", name))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).searchStudentName(name);
+    }
+
+    @Test
+    void 受講生詳細の受講生カナ名検索が実行できて空のリストが返ってくること() throws Exception {
+        String kanaName = "タナカタロウ";
+        when(service.searchStudentKanaName(kanaName)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/kanaName={kanaName}", kanaName))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).searchStudentKanaName(kanaName);
+    }
+
+    @Test
+    void 受講生詳細の受講生ニックネーム検索が実行できて空のリストが返ってくること() throws Exception {
+        String nickname = "タロウ";
+        when(service.searchStudentNickname(nickname)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/nickname={nickname}", nickname))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).searchStudentNickname(nickname);
+    }
+
+    @Test
+    void 受講生詳細の受講生メール検索が実行できて空のリストが返ってくること() throws Exception {
+        String email = "test@example.com";
+        when(service.searchStudentEmail(email)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/email={email}", email))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).searchStudentEmail(email);
+    }
+
+    @Test
+    void 受講生詳細の受講生地域検索が実行できて空のリストが返ってくること() throws Exception {
+        String area = "東京都";
+        when(service.searchStudentArea(area)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/area={area}", area))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).searchStudentArea(area);
+    }
+
+    @Test
+    void 受講生詳細の受講生年齢検索が実行できて空のリストが返ってくること() throws Exception {
+        String age = "20";
+        when(service.searchStudentAge(age)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/age={age}", age))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).searchStudentAge(age);
+    }
+
+    @Test
+    void 受講生詳細の受講生性別検索が実行できて空のリストが返ってくること() throws Exception {
+        String sex = "男性";
+        when(service.searchStudentSex(sex)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/sex={sex}", sex))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).searchStudentSex(sex);
+    }
+
+    @Test
+    void 受講生詳細の受講生備考検索が実行できて空のリストが返ってくること() throws Exception {
+        String remark = "テストです。";
+        when(service.searchStudentRemark(remark)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/remark={remark}", remark))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).searchStudentRemark(remark);
+    }
+
+    @Test
+    void 受講生詳細の受講生削除フラグ検索が実行できて空のリストが返ってくること() throws Exception {
+        String isDeleted = "true";
+        when(service.searchStudentIsDeleted(isDeleted)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student/isDeleted={isDeleted}", isDeleted))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).searchStudentIsDeleted(isDeleted);
+    }
+
+    @Test
+    void コース申し込み状況の検索が実行できること() throws Exception {
+        String id = "999";
+        CourseStatus courseStatus = new CourseStatus();
+        when((service.searchCourseStatus(id))).thenReturn(courseStatus);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/courseStatus/id={id}", id))
+                .andExpect(status().isOk());
+
+        verify(service, Mockito.times(1)).searchCourseStatus(id);
+    }
+
+    @Test
+    void コース申し込み状況の一覧検索が実行できて空のリストが返ってくること() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/courseStatusList"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).searchCourseStatusList();
     }
 
     @Test
@@ -130,6 +261,40 @@ class StudentControllerTest {
                         ))
                 .andExpect(status().isOk());
         verify(service, Mockito.times(1)).updateStudent(any());
+    }
+
+    @Test
+    void 申し込み状況の更新が実行できて空が返ってくること() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/updateCourseStatus")
+                        .contentType(MediaType.APPLICATION_JSON).content(
+                                """
+                                                    {
+                                                    "id" : "1",
+                                                    "courseId" : "1",
+                                                    "courseStatus" : "本申込"
+                                                }
+                                        """
+                        ))
+                .andExpect(status().isOk());
+        verify(service, Mockito.times(1)).updateCourseStatus(any());
+    }
+
+    @Test
+    void 申し込み状況の例外APIが実行できてステータスが400で返ってくること() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/updateCourseStatus")
+                        .contentType(MediaType.APPLICATION_JSON).content(
+                                """
+                                                    {
+                                                    "id" : "1",
+                                                    "courseId" : "1",
+                                                    "courseStatus" : "テストです。"
+                                                }
+                                        """
+                        ))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("入力されたコースステータスは許可されていません。仮申込／本申込／受講中／受講終了を入力してください。"));
     }
 
     @Test
@@ -409,4 +574,51 @@ class StudentControllerTest {
         assertThat(violations.size()).isEqualTo(1);
     }
 
+    @Test
+    void コース申し込み状況で適切な値を入力時に入力チェックに異常が発生しないこと() {
+        CourseStatus courseStatus = new CourseStatus("999", "999", "仮申込");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(0);
+    }
+
+    @Test
+    void コース申し込み状況でidが入力時に入力チェックに異常が発生すること() {
+        CourseStatus courseStatus = new CourseStatus("", "999", "仮申込");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(1);
+    }
+
+    @Test
+    void コース申し込み状況でidが入力時に数値以外を入力チェックに異常が発生すること() {
+        CourseStatus courseStatus = new CourseStatus("テストです。", "999", "仮申込");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(1);
+    }
+
+    @Test
+    void コース申し込み状況でcourseIdが入力時に入力チェックに異常が発生すること() {
+        CourseStatus courseStatus = new CourseStatus("999", "", "仮申込");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(1);
+    }
+
+    @Test
+    void コース申し込み状況でcourseIdが数値以外を入力時に入力チェックに異常が発生すること() {
+        CourseStatus courseStatus = new CourseStatus("999", "テストです。", "仮申込");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(1);
+    }
+
+    @Test
+    void コース申し込み状況で申し込み状況が入力時に入力チェックに異常が発生すること() {
+        CourseStatus courseStatus = new CourseStatus("999", "999", "");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(1);
+    }
 }

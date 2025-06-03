@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
+import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.exception.StudentNotFoundException;
 import raisetech.StudentManagement.repository.StudentRepository;
+import raisetech.StudentManagement.service.converter.StudentEntityConverter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,11 +24,13 @@ public class StudentService {
 
     private StudentRepository repository;
     private StudentConverter converter;
+    private StudentEntityConverter entityConverter;
 
     @Autowired
-    public StudentService(StudentRepository repository, StudentConverter converter) {
+    public StudentService(StudentRepository repository, StudentConverter converter, StudentEntityConverter entityConverter) {
         this.repository = repository;
         this.converter = converter;
+        this.entityConverter = entityConverter;
     }
 
     /**
@@ -48,8 +52,8 @@ public class StudentService {
      * @param id 受講生ID
      * @return 受講生詳細
      */
-    public StudentDetail searchStudent(String id) {
-        Student student = repository.searchStudent(id);
+    public StudentDetail searchStudentId(String id) {
+        Student student = repository.searchStudentId(id);
         if (student == null) {
             throw new StudentNotFoundException(id);
         }
@@ -58,8 +62,137 @@ public class StudentService {
     }
 
     /**
+     * 受講生検索です。
+     * 完全一致するnameの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     *
+     * @param name 受講生のname
+     * @return 受講生詳細
+     */
+    public List<StudentDetail> searchStudentName(String name) {
+        List<Student> studentList = repository.searchStudentName(name);
+        return entityConverter.convertStudentDetail(studentList);
+    }
+
+    /**
+     * 受講生検索です。
+     * 完全一致するkanaNameの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     *
+     * @param kanaName 受講生のkanaName
+     * @return 受講生詳細
+     */
+    public List<StudentDetail> searchStudentKanaName(String kanaName) {
+        List<Student> studentList = repository.searchStudentKanaName(kanaName);
+        return entityConverter.convertStudentDetail(studentList);
+    }
+
+    /**
+     * 受講生検索です。
+     * 完全一致するnicknameの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     *
+     * @param nickname 受講生のnickname
+     * @return 受講生詳細
+     */
+    public List<StudentDetail> searchStudentNickname(String nickname) {
+        List<Student> studentList = repository.searchStudentNickname(nickname);
+        return entityConverter.convertStudentDetail(studentList);
+    }
+
+    /**
+     * 受講生検索です。
+     * 完全一致するemailの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     *
+     * @param email 受講生のemail
+     * @return 受講生詳細
+     */
+    public List<StudentDetail> searchStudentEmail(String email) {
+        List<Student> studentList = repository.searchStudentEmail(email);
+        return entityConverter.convertStudentDetail(studentList);
+    }
+
+    /**
+     * 受講生検索です。
+     * 完全一致するareaの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     *
+     * @param area 受講生のarea
+     * @return 受講生詳細
+     */
+    public List<StudentDetail> searchStudentArea(String area) {
+        List<Student> studentList = repository.searchStudentArea(area);
+        return entityConverter.convertStudentDetail(studentList);
+    }
+
+    /**
+     * 受講生検索です。
+     * 完全一致するageの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     *
+     * @param age 受講生のage
+     * @return 受講生詳細
+     */
+    public List<StudentDetail> searchStudentAge(String age) {
+        List<Student> studentList = repository.searchStudentAge(age);
+        return entityConverter.convertStudentDetail(studentList);
+    }
+
+    /**
+     * 受講生検索です。
+     * 完全一致するsexの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     *
+     * @param sex 受講生のsex
+     * @return 受講生詳細
+     */
+    public List<StudentDetail> searchStudentSex(String sex) {
+        List<Student> studentList = repository.searchStudentSex(sex);
+        return entityConverter.convertStudentDetail(studentList);
+    }
+
+    /**
+     * 受講生検索です。
+     * 完全一致するremarkの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     *
+     * @param remark 受講生のremark
+     * @return 受講生詳細
+     */
+    public List<StudentDetail> searchStudentRemark(String remark) {
+        List<Student> studentList = repository.searchStudentRemark(remark);
+        return entityConverter.convertStudentDetail(studentList);
+    }
+
+    /**
+     * 受講生検索です。
+     * 完全一致するisDeletedの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     *
+     * @param isDeleted 受講生のisDeleted
+     * @return 受講生詳細
+     */
+    public List<StudentDetail> searchStudentIsDeleted(String isDeleted) {
+        List<Student> studentList = repository.searchStudentIsDeleted(isDeleted);
+        return entityConverter.convertStudentDetail(studentList);
+    }
+
+    /**
+     * コース申し込み状況の一覧検索です。
+     *
+     * @return コース申し込み状況
+     */
+    public CourseStatus searchCourseStatus(String id) {
+        return repository.searchCourseStatus(id);
+    }
+
+    /**
+     * コース申し込み状況の検索です。
+     * 全件検索を行うので、条件指定は行いません。
+     *
+     * @return コース申し込み状況一覧(全件)
+     */
+    public List<CourseStatus> searchCourseStatusList() {
+        return repository.searchCourseStatusList();
+    }
+
+    /**
      * 受講生詳細の登録を行います。
-     * 受講生と受講生コース情報を個別に登録し、受講生コース情報には受講生情報を紐づける値やコース開始日、コース終了日を設定します。
+     * 受講生と受講生コース情報とコース申し込み状況を個別に登録します。
+     * 受講生コース情報には受講生情報を紐づける値やコース開始日、コース終了日を設定します。
+     * コース申し込み状況には受講生コース情報に紐づくidの登録やコース申し込みを設定します。
      *
      * @param studentDetail 受講生詳細
      * @return 登録情報を付与した受講生詳細
@@ -72,6 +205,8 @@ public class StudentService {
         studentDetail.getStudentCourseList().forEach(studentCourse -> {
             initStudentsCourse(studentCourse, student);
             repository.registerStudentCourse(studentCourse);
+            CourseStatus courseStatus = new CourseStatus(null, studentCourse.getId(), "仮申込");
+            repository.registerCourseStatus(courseStatus);
         });
         return studentDetail;
     }
@@ -102,4 +237,15 @@ public class StudentService {
         studentDetail.getStudentCourseList()
                 .forEach(studentCourse -> repository.updateStudentCourse(studentCourse));
     }
+
+    /**
+     * コース申し込み状況の更新を行います。
+     *
+     * @param courseStatus コース申し込み状況
+     */
+    @Transactional
+    public void updateCourseStatus(CourseStatus courseStatus) {
+        repository.updateCourseStatus(courseStatus);
+    }
+
 }

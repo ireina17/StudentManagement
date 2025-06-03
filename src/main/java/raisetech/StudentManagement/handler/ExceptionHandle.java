@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import raisetech.StudentManagement.exception.CourseStatusNotAllowedException;
 import raisetech.StudentManagement.exception.StudentNotFoundException;
 import raisetech.StudentManagement.exception.UnavailableApiVersionException;
 
@@ -27,6 +28,13 @@ public class ExceptionHandle {
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity
                 .badRequest()
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(CourseStatusNotAllowedException.class)
+    public ResponseEntity<String> handleCourseStatusNotAllowedException(CourseStatusNotAllowedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
                 .body(ex.getMessage());
     }
 }
