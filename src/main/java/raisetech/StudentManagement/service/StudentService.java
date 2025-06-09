@@ -39,9 +39,9 @@ public class StudentService {
      *
      * @return 受講生詳細一覧(全件)
      */
-    public List<StudentDetail> searchStudentList() {
-        List<Student> studentList = repository.search();
-        List<StudentCourse> studentCourseList = repository.searchStudentCourseList();
+    public List<StudentDetail> findStudentsByAll() {
+        List<Student> studentList = repository.findStudentsByAll();
+        List<StudentCourse> studentCourseList = repository.findStudentCoursesByAll();
         return converter.convertStudentDetails(studentList, studentCourseList);
     }
 
@@ -52,12 +52,12 @@ public class StudentService {
      * @param id 受講生ID
      * @return 受講生詳細
      */
-    public StudentDetail searchStudentId(String id) {
-        Student student = repository.searchStudentId(id);
+    public StudentDetail searchStudentById(String id) {
+        Student student = repository.searchStudentById(id);
         if (student == null) {
             throw new StudentNotFoundException(id);
         }
-        List<StudentCourse> studentCourse = repository.searchStudentCourse(student.getId());
+        List<StudentCourse> studentCourse = repository.searchStudentCourseById(student.getId());
         return new StudentDetail(student, studentCourse);
     }
 
@@ -68,8 +68,8 @@ public class StudentService {
      * @param name 受講生のname
      * @return 受講生詳細
      */
-    public List<StudentDetail> searchStudentName(String name) {
-        List<Student> studentList = repository.searchStudentName(name);
+    public List<StudentDetail> findStudentsByName(String name) {
+        List<Student> studentList = repository.findStudentsByName(name);
         return entityConverter.convertStudentDetail(studentList);
     }
 
@@ -80,8 +80,8 @@ public class StudentService {
      * @param kanaName 受講生のkanaName
      * @return 受講生詳細
      */
-    public List<StudentDetail> searchStudentKanaName(String kanaName) {
-        List<Student> studentList = repository.searchStudentKanaName(kanaName);
+    public List<StudentDetail> findStudentsByKanaName(String kanaName) {
+        List<Student> studentList = repository.findStudentsByKanaName(kanaName);
         return entityConverter.convertStudentDetail(studentList);
     }
 
@@ -92,8 +92,8 @@ public class StudentService {
      * @param nickname 受講生のnickname
      * @return 受講生詳細
      */
-    public List<StudentDetail> searchStudentNickname(String nickname) {
-        List<Student> studentList = repository.searchStudentNickname(nickname);
+    public List<StudentDetail> findStudentsByNickname(String nickname) {
+        List<Student> studentList = repository.findStudentsByNickname(nickname);
         return entityConverter.convertStudentDetail(studentList);
     }
 
@@ -104,8 +104,8 @@ public class StudentService {
      * @param email 受講生のemail
      * @return 受講生詳細
      */
-    public List<StudentDetail> searchStudentEmail(String email) {
-        List<Student> studentList = repository.searchStudentEmail(email);
+    public List<StudentDetail> findStudentsByEmail(String email) {
+        List<Student> studentList = repository.findStudentsByEmail(email);
         return entityConverter.convertStudentDetail(studentList);
     }
 
@@ -116,8 +116,8 @@ public class StudentService {
      * @param area 受講生のarea
      * @return 受講生詳細
      */
-    public List<StudentDetail> searchStudentArea(String area) {
-        List<Student> studentList = repository.searchStudentArea(area);
+    public List<StudentDetail> findStudentsByArea(String area) {
+        List<Student> studentList = repository.findStudentsByArea(area);
         return entityConverter.convertStudentDetail(studentList);
     }
 
@@ -128,8 +128,8 @@ public class StudentService {
      * @param age 受講生のage
      * @return 受講生詳細
      */
-    public List<StudentDetail> searchStudentAge(String age) {
-        List<Student> studentList = repository.searchStudentAge(age);
+    public List<StudentDetail> findStudentsByAge(String age) {
+        List<Student> studentList = repository.findStudentsByAge(age);
         return entityConverter.convertStudentDetail(studentList);
     }
 
@@ -140,8 +140,8 @@ public class StudentService {
      * @param sex 受講生のsex
      * @return 受講生詳細
      */
-    public List<StudentDetail> searchStudentSex(String sex) {
-        List<Student> studentList = repository.searchStudentSex(sex);
+    public List<StudentDetail> findStudentsBySex(String sex) {
+        List<Student> studentList = repository.findStudentsBySex(sex);
         return entityConverter.convertStudentDetail(studentList);
     }
 
@@ -152,8 +152,8 @@ public class StudentService {
      * @param remark 受講生のremark
      * @return 受講生詳細
      */
-    public List<StudentDetail> searchStudentRemark(String remark) {
-        List<Student> studentList = repository.searchStudentRemark(remark);
+    public List<StudentDetail> findStudentsByRemark(String remark) {
+        List<Student> studentList = repository.findStudentsByRemark(remark);
         return entityConverter.convertStudentDetail(studentList);
     }
 
@@ -164,8 +164,8 @@ public class StudentService {
      * @param isDeleted 受講生のisDeleted
      * @return 受講生詳細
      */
-    public List<StudentDetail> searchStudentIsDeleted(String isDeleted) {
-        List<Student> studentList = repository.searchStudentIsDeleted(isDeleted);
+    public List<StudentDetail> findStudentsByDeleted(String isDeleted) {
+        List<Student> studentList = repository.findStudentsByIsDeleted(isDeleted);
         return entityConverter.convertStudentDetail(studentList);
     }
 
@@ -184,8 +184,8 @@ public class StudentService {
      *
      * @return コース申し込み状況一覧(全件)
      */
-    public List<CourseStatus> searchCourseStatusList() {
-        return repository.searchCourseStatusList();
+    public List<CourseStatus> findCourseStatusByAll() {
+        return repository.findCourseStatusByAll();
     }
 
     /**

@@ -46,15 +46,15 @@ class StudentServiceTest {
         //事前準備
         List<Student> studentList = new ArrayList<>();
         List<StudentCourse> studentCourseList = new ArrayList<>();
-        when(repository.search()).thenReturn(studentList);
-        when(repository.searchStudentCourseList()).thenReturn(studentCourseList);
+        when(repository.findStudentsByAll()).thenReturn(studentList);
+        when(repository.findStudentCoursesByAll()).thenReturn(studentCourseList);
 
         // 実行
-        sut.searchStudentList();
+        sut.findStudentsByAll();
 
         // 検証
-        verify(repository, Mockito.times(1)).search();
-        verify(repository, Mockito.times(1)).searchStudentCourseList();
+        verify(repository, Mockito.times(1)).findStudentsByAll();
+        verify(repository, Mockito.times(1)).findStudentCoursesByAll();
         verify(converter, Mockito.times(1)).convertStudentDetails(studentList, studentCourseList);
     }
 
@@ -65,17 +65,17 @@ class StudentServiceTest {
         String id = "999";
         Student student = new Student();
         student.setId(id);
-        when(repository.searchStudentId(id)).thenReturn(student);
-        when(repository.searchStudentCourse(id)).thenReturn(new ArrayList<>());
+        when(repository.searchStudentById(id)).thenReturn(student);
+        when(repository.searchStudentCourseById(id)).thenReturn(new ArrayList<>());
 
         StudentDetail expected = new StudentDetail(student, new ArrayList());
 
         //実行
-        StudentDetail actual = sut.searchStudentId(id);
+        StudentDetail actual = sut.searchStudentById(id);
 
         //検証
-        verify(repository, Mockito.times(1)).searchStudentId(id);
-        verify(repository, Mockito.times(1)).searchStudentCourse(id);
+        verify(repository, Mockito.times(1)).searchStudentById(id);
+        verify(repository, Mockito.times(1)).searchStudentCourseById(id);
         Assertions.assertEquals(expected.getStudent().getId(), actual.getStudent().getId());
     }
 
@@ -90,13 +90,13 @@ class StudentServiceTest {
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
 
-        when(repository.searchStudentName(name)).thenReturn(studentList);
+        when(repository.findStudentsByName(name)).thenReturn(studentList);
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.searchStudentName(name);
+        List<StudentDetail> actual = sut.findStudentsByName(name);
 
-        verify(repository, Mockito.times(1)).searchStudentName(name);
+        verify(repository, Mockito.times(1)).findStudentsByName(name);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
         Assertions.assertEquals(expected, actual);
     }
@@ -112,13 +112,13 @@ class StudentServiceTest {
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
 
-        when(repository.searchStudentKanaName(kanaName)).thenReturn(studentList);
+        when(repository.findStudentsByKanaName(kanaName)).thenReturn(studentList);
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.searchStudentKanaName(kanaName);
+        List<StudentDetail> actual = sut.findStudentsByKanaName(kanaName);
 
-        verify(repository, Mockito.times(1)).searchStudentKanaName(kanaName);
+        verify(repository, Mockito.times(1)).findStudentsByKanaName(kanaName);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
         Assertions.assertEquals(expected, actual);
     }
@@ -134,13 +134,13 @@ class StudentServiceTest {
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
 
-        when(repository.searchStudentNickname(nickname)).thenReturn(studentList);
+        when(repository.findStudentsByNickname(nickname)).thenReturn(studentList);
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.searchStudentNickname(nickname);
+        List<StudentDetail> actual = sut.findStudentsByNickname(nickname);
 
-        verify(repository, Mockito.times(1)).searchStudentNickname(nickname);
+        verify(repository, Mockito.times(1)).findStudentsByNickname(nickname);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
         Assertions.assertEquals(expected, actual);
     }
@@ -156,13 +156,13 @@ class StudentServiceTest {
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
 
-        when(repository.searchStudentEmail(email)).thenReturn(studentList);
+        when(repository.findStudentsByEmail(email)).thenReturn(studentList);
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.searchStudentEmail(email);
+        List<StudentDetail> actual = sut.findStudentsByEmail(email);
 
-        verify(repository, Mockito.times(1)).searchStudentEmail(email);
+        verify(repository, Mockito.times(1)).findStudentsByEmail(email);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
         Assertions.assertEquals(expected, actual);
     }
@@ -178,13 +178,13 @@ class StudentServiceTest {
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
 
-        when(repository.searchStudentArea(area)).thenReturn(studentList);
+        when(repository.findStudentsByArea(area)).thenReturn(studentList);
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.searchStudentArea(area);
+        List<StudentDetail> actual = sut.findStudentsByArea(area);
 
-        verify(repository, Mockito.times(1)).searchStudentArea(area);
+        verify(repository, Mockito.times(1)).findStudentsByArea(area);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
         Assertions.assertEquals(expected, actual);
     }
@@ -200,13 +200,13 @@ class StudentServiceTest {
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
 
-        when(repository.searchStudentAge(age)).thenReturn(studentList);
+        when(repository.findStudentsByAge(age)).thenReturn(studentList);
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.searchStudentAge(age);
+        List<StudentDetail> actual = sut.findStudentsByAge(age);
 
-        verify(repository, Mockito.times(1)).searchStudentAge(age);
+        verify(repository, Mockito.times(1)).findStudentsByAge(age);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
         Assertions.assertEquals(expected, actual);
     }
@@ -222,13 +222,13 @@ class StudentServiceTest {
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
 
-        when(repository.searchStudentSex(sex)).thenReturn(studentList);
+        when(repository.findStudentsBySex(sex)).thenReturn(studentList);
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.searchStudentSex(sex);
+        List<StudentDetail> actual = sut.findStudentsBySex(sex);
 
-        verify(repository, Mockito.times(1)).searchStudentSex(sex);
+        verify(repository, Mockito.times(1)).findStudentsBySex(sex);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
         Assertions.assertEquals(expected, actual);
     }
@@ -244,13 +244,13 @@ class StudentServiceTest {
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
 
-        when(repository.searchStudentRemark(remark)).thenReturn(studentList);
+        when(repository.findStudentsByRemark(remark)).thenReturn(studentList);
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.searchStudentRemark(remark);
+        List<StudentDetail> actual = sut.findStudentsByRemark(remark);
 
-        verify(repository, Mockito.times(1)).searchStudentRemark(remark);
+        verify(repository, Mockito.times(1)).findStudentsByRemark(remark);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
         Assertions.assertEquals(expected, actual);
     }
@@ -266,13 +266,13 @@ class StudentServiceTest {
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
 
-        when(repository.searchStudentIsDeleted(isDeleted)).thenReturn(studentList);
+        when(repository.findStudentsByIsDeleted(isDeleted)).thenReturn(studentList);
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.searchStudentIsDeleted(isDeleted);
+        List<StudentDetail> actual = sut.findStudentsByDeleted(isDeleted);
 
-        verify(repository, Mockito.times(1)).searchStudentIsDeleted(isDeleted);
+        verify(repository, Mockito.times(1)).findStudentsByIsDeleted(isDeleted);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
         Assertions.assertEquals(expected, actual);
     }
@@ -280,11 +280,11 @@ class StudentServiceTest {
     @Test
     void コース申し込み状況一覧検索_リポジトリの処理が適切に呼び出せること() {
         List<CourseStatus> courseStatusesList = new ArrayList<>();
-        when((repository.searchCourseStatusList())).thenReturn(courseStatusesList);
+        when((repository.findCourseStatusByAll())).thenReturn(courseStatusesList);
 
-        sut.searchCourseStatusList();
+        sut.findCourseStatusByAll();
 
-        verify(repository, Mockito.times(1)).searchCourseStatusList();
+        verify(repository, Mockito.times(1)).findCourseStatusByAll();
     }
 
     @Test

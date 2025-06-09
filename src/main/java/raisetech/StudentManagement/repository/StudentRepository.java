@@ -20,7 +20,7 @@ public interface StudentRepository {
      *
      * @return 受講生一覧(全件)
      */
-    List<Student> search();
+    List<Student> findStudentsByAll();
 
     /**
      * 受講生のid検索を行います。
@@ -28,7 +28,7 @@ public interface StudentRepository {
      * @param id 受講生ID
      * @return 受講生
      */
-    Student searchStudentId(String id);
+    Student searchStudentById(String id);
 
     /**
      * 受講生の名前検索を行います。
@@ -36,7 +36,7 @@ public interface StudentRepository {
      * @param name 受講生のName
      * @return 受講生
      */
-    List<Student> searchStudentName(String name);
+    List<Student> findStudentsByName(String name);
 
     /**
      * 受講生のカナ名検索を行います。
@@ -44,7 +44,7 @@ public interface StudentRepository {
      * @param kanaName 受講生のKanaName
      * @return 受講生
      */
-    List<Student> searchStudentKanaName(String kanaName);
+    List<Student> findStudentsByKanaName(String kanaName);
 
     /**
      * 受講生のニックネーム検索を行います。
@@ -52,7 +52,7 @@ public interface StudentRepository {
      * @param nickname 受講生のnickname
      * @return 受講生
      */
-    List<Student> searchStudentNickname(String nickname);
+    List<Student> findStudentsByNickname(String nickname);
 
     /**
      * 受講生のメール検索を行います。
@@ -60,7 +60,7 @@ public interface StudentRepository {
      * @param email 受講生のemail
      * @return 受講生
      */
-    List<Student> searchStudentEmail(String email);
+    List<Student> findStudentsByEmail(String email);
 
     /**
      * 受講生の地域検索を行います。
@@ -68,7 +68,7 @@ public interface StudentRepository {
      * @param area 受講生のarea
      * @return 受講生
      */
-    List<Student> searchStudentArea(String area);
+    List<Student> findStudentsByArea(String area);
 
     /**
      * 受講生の年齢検索を行います。
@@ -76,7 +76,7 @@ public interface StudentRepository {
      * @param age 受講生のage
      * @return 受講生
      */
-    List<Student> searchStudentAge(String age);
+    List<Student> findStudentsByAge(String age);
 
     /**
      * 受講生の性別検索を行います。
@@ -84,7 +84,7 @@ public interface StudentRepository {
      * @param sex 受講生のsex
      * @return 受講生
      */
-    List<Student> searchStudentSex(String sex);
+    List<Student> findStudentsBySex(String sex);
 
     /**
      * 受講生の備考検索を行います。
@@ -92,7 +92,7 @@ public interface StudentRepository {
      * @param remark 受講生のremark
      * @return 受講生
      */
-    List<Student> searchStudentRemark(String remark);
+    List<Student> findStudentsByRemark(String remark);
 
     /**
      * 受講生の削除フラグ検索を行います。
@@ -100,14 +100,14 @@ public interface StudentRepository {
      * @param isDeleted 受講生のisDeleted
      * @return 受講生
      */
-    List<Student> searchStudentIsDeleted(String isDeleted);
+    List<Student> findStudentsByIsDeleted(String isDeleted);
 
     /**
      * 受講生のコース情報の全件検索を行います。
      *
      * @return 受講生のコース情報(全件)
      */
-    List<StudentCourse> searchStudentCourseList();
+    List<StudentCourse> findStudentCoursesByAll();
 
     /**
      * 受講生IDに紐づく受講生コース情報を検索します。
@@ -115,14 +115,14 @@ public interface StudentRepository {
      * @param studentId 受講生ID
      * @return 受講生IDに紐づく受講生コース情報
      */
-    List<StudentCourse> searchStudentCourse(String studentId);
+    List<StudentCourse> searchStudentCourseById(String studentId);
 
     /**
      * コース申し込み状況の全件検索します。
      *
      * @return コース申し込み状況(全件)
      */
-    List<CourseStatus> searchCourseStatusList();
+    List<CourseStatus> findCourseStatusByAll();
 
     /**
      * コース申し込み状況IDに紐づくコース申し込み状況の検索します。

@@ -35,8 +35,8 @@ class StudentEntityConverterTest {
         StudentCourse studentCourse2 = new StudentCourse("998", "998", "JAVAコース", now, now.plusYears(1));
         StudentCourse studentCourse3 = new StudentCourse("1000", "998", "AWSコース", now, now.plusYears(1));
 
-        when(repository.searchStudentCourse("999")).thenReturn(List.of(studentCourse1));
-        when(repository.searchStudentCourse("998")).thenReturn(List.of(studentCourse2, studentCourse3));
+        when(repository.searchStudentCourseById("999")).thenReturn(List.of(studentCourse1));
+        when(repository.searchStudentCourseById("998")).thenReturn(List.of(studentCourse2, studentCourse3));
 
         List<Student> studentList = List.of(student1, student2);
 

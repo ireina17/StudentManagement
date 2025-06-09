@@ -22,7 +22,7 @@ class StudentRepositoryTest {
     @Test
     void 受講生の全件検索が行えること() {
         List<Student> expected = studentTestDataList();
-        List<Student> actual = sut.search();
+        List<Student> actual = sut.findStudentsByAll();
 
         assertThat(actual.size()).isEqualTo(5);
         assertEquals(expected, actual);
@@ -30,7 +30,7 @@ class StudentRepositoryTest {
 
     @Test
     void 受講生の単体でid検索が行えること() {
-        Student actual = sut.searchStudentId("3");
+        Student actual = sut.searchStudentById("3");
         Student expected = studentTestDataList().get(2);
 
         assertEquals(expected, actual);
@@ -38,7 +38,7 @@ class StudentRepositoryTest {
 
     @Test
     void 名前が完全一致する受講生が検索されること() {
-        List<Student> actual = sut.searchStudentName("高橋一郎");
+        List<Student> actual = sut.findStudentsByName("高橋一郎");
         List<Student> expected = List.of(studentTestDataList().get(2));
 
         assertEquals(expected, actual);
@@ -46,7 +46,7 @@ class StudentRepositoryTest {
 
     @Test
     void 名前が完全一致する受講生が複数件ヒットすること() {
-        List<Student> actual = sut.searchStudentName("佐藤太郎");
+        List<Student> actual = sut.findStudentsByName("佐藤太郎");
         List<Student> expected = List.of(studentTestDataList().get(0), studentTestDataList().get(4));
 
         assertEquals(expected, actual);
@@ -54,7 +54,7 @@ class StudentRepositoryTest {
 
     @Test
     void カナ名が完全一致する受講生が検索されること() {
-        List<Student> actual = sut.searchStudentKanaName("タカハシイチロウ");
+        List<Student> actual = sut.findStudentsByKanaName("タカハシイチロウ");
         List<Student> expected = List.of(studentTestDataList().get(2));
 
         assertEquals(expected, actual);
@@ -62,7 +62,7 @@ class StudentRepositoryTest {
 
     @Test
     void カナ名が完全一致する受講生が複数件ヒットすること() {
-        List<Student> actual = sut.searchStudentKanaName("サトウタロウ");
+        List<Student> actual = sut.findStudentsByKanaName("サトウタロウ");
         List<Student> expected = List.of(studentTestDataList().get(0), studentTestDataList().get(4));
 
         assertEquals(expected, actual);
@@ -70,7 +70,7 @@ class StudentRepositoryTest {
 
     @Test
     void ニックネームが完全一致する受講生が検索されること() {
-        List<Student> actual = sut.searchStudentNickname("イチ");
+        List<Student> actual = sut.findStudentsByNickname("イチ");
         List<Student> expected = List.of(studentTestDataList().get(2));
 
         assertEquals(expected, actual);
@@ -78,7 +78,7 @@ class StudentRepositoryTest {
 
     @Test
     void ニックネームが完全一致する受講生が複数件ヒットすること() {
-        List<Student> actual = sut.searchStudentNickname("タロウ");
+        List<Student> actual = sut.findStudentsByNickname("タロウ");
         List<Student> expected = List.of(studentTestDataList().get(0), studentTestDataList().get(4));
 
         assertEquals(expected, actual);
@@ -86,7 +86,7 @@ class StudentRepositoryTest {
 
     @Test
     void メールが完全一致する受講生が検索されること() {
-        List<Student> actual = sut.searchStudentEmail("ichiro.takahashi@example.com");
+        List<Student> actual = sut.findStudentsByEmail("ichiro.takahashi@example.com");
         List<Student> expected = List.of(studentTestDataList().get(2));
 
         assertEquals(expected, actual);
@@ -94,7 +94,7 @@ class StudentRepositoryTest {
 
     @Test
     void メールが完全一致する受講生が複数件ヒットすること() {
-        List<Student> actual = sut.searchStudentEmail("taro.sato@example.com");
+        List<Student> actual = sut.findStudentsByEmail("taro.sato@example.com");
         List<Student> expected = List.of(studentTestDataList().get(0), studentTestDataList().get(4));
 
         assertEquals(expected, actual);
@@ -102,7 +102,7 @@ class StudentRepositoryTest {
 
     @Test
     void 地域が完全一致する受講生が検索されること() {
-        List<Student> actual = sut.searchStudentArea("愛知");
+        List<Student> actual = sut.findStudentsByArea("愛知");
         List<Student> expected = List.of(studentTestDataList().get(2));
 
         assertEquals(expected, actual);
@@ -110,7 +110,7 @@ class StudentRepositoryTest {
 
     @Test
     void 地域が完全一致する受講生が複数件ヒットすること() {
-        List<Student> actual = sut.searchStudentArea("東京");
+        List<Student> actual = sut.findStudentsByArea("東京");
         List<Student> expected = List.of(studentTestDataList().get(0), studentTestDataList().get(4));
 
         assertEquals(expected, actual);
@@ -118,7 +118,7 @@ class StudentRepositoryTest {
 
     @Test
     void 年齢が完全一致する受講生が検索されること() {
-        List<Student> actual = sut.searchStudentAge("22");
+        List<Student> actual = sut.findStudentsByAge("22");
         List<Student> expected = List.of(studentTestDataList().get(2));
 
         assertEquals(expected, actual);
@@ -126,7 +126,7 @@ class StudentRepositoryTest {
 
     @Test
     void 年齢が完全一致する受講生が複数件ヒットすること() {
-        List<Student> actual = sut.searchStudentAge("20");
+        List<Student> actual = sut.findStudentsByAge("20");
         List<Student> expected = List.of(studentTestDataList().get(0), studentTestDataList().get(4));
 
         assertEquals(expected, actual);
@@ -134,7 +134,7 @@ class StudentRepositoryTest {
 
     @Test
     void 性別が完全一致する受講生が検索されること() {
-        List<Student> actual = sut.searchStudentSex("その他");
+        List<Student> actual = sut.findStudentsBySex("その他");
         List<Student> expected = List.of(studentTestDataList().get(2));
 
         assertEquals(expected, actual);
@@ -142,7 +142,7 @@ class StudentRepositoryTest {
 
     @Test
     void 性別が完全一致する受講生が複数件ヒットすること() {
-        List<Student> actual = sut.searchStudentSex("男性");
+        List<Student> actual = sut.findStudentsBySex("男性");
         List<Student> expected = List.of(studentTestDataList().get(0), studentTestDataList().get(4));
 
         assertEquals(expected, actual);
@@ -150,7 +150,7 @@ class StudentRepositoryTest {
 
     @Test
     void 備考が完全一致する受講生が検索されること() {
-        List<Student> actual = sut.searchStudentRemark("その他");
+        List<Student> actual = sut.findStudentsByRemark("その他");
         List<Student> expected = List.of(studentTestDataList().get(2));
 
         assertEquals(expected, actual);
@@ -158,7 +158,7 @@ class StudentRepositoryTest {
 
     @Test
     void 備考が完全一致する受講生が複数件ヒットすること() {
-        List<Student> actual = sut.searchStudentRemark("テストです。");
+        List<Student> actual = sut.findStudentsByRemark("テストです。");
         List<Student> expected = List.of(studentTestDataList().get(0), studentTestDataList().get(4));
 
         assertEquals(expected, actual);
@@ -166,7 +166,7 @@ class StudentRepositoryTest {
 
     @Test
     void 削除フラグが完全一致する受講生が複数件ヒットすること() {
-        List<Student> actual = sut.searchStudentIsDeleted("true");
+        List<Student> actual = sut.findStudentsByIsDeleted("true");
         List<Student> expected = List.of(studentTestDataList().get(0), studentTestDataList().get(4));
 
         assertEquals(expected, actual);
@@ -174,7 +174,7 @@ class StudentRepositoryTest {
 
     @Test
     void 受講生コースの全件検索が行えること() {
-        List<StudentCourse> actual = sut.searchStudentCourseList();
+        List<StudentCourse> actual = sut.findStudentCoursesByAll();
         List<StudentCourse> expected = studentCoursesTestDataList();
 
         assertThat(actual.size()).isEqualTo(10);
@@ -183,8 +183,8 @@ class StudentRepositoryTest {
 
     @Test
     void 受講生コースの単体検索が行えること() {
-        List<StudentCourse> actual = sut.searchStudentCourse("3");
-        List<StudentCourse> expected = List.of(sut.searchStudentCourseList().get(4), sut.searchStudentCourseList().get(5));
+        List<StudentCourse> actual = sut.searchStudentCourseById("3");
+        List<StudentCourse> expected = List.of(sut.findStudentCoursesByAll().get(4), sut.findStudentCoursesByAll().get(5));
 
         assertThat(actual.size()).isEqualTo(2);
         assertEquals(expected, actual);
@@ -192,7 +192,7 @@ class StudentRepositoryTest {
 
     @Test
     void コース申し込み状況を全件検索が行えること() {
-        List<CourseStatus> actual = sut.searchCourseStatusList();
+        List<CourseStatus> actual = sut.findCourseStatusByAll();
         List<CourseStatus> expected = courseStatusTestDataList();
 
         assertThat(actual.size()).isEqualTo(10);
@@ -212,7 +212,7 @@ class StudentRepositoryTest {
         Student student = new Student(null, "田中太郎", "タナカタロウ", "タロウ", "tanaka.tariu@example.com", "東京都", 25, "男性", "", false);
 
         sut.registerStudent(student);
-        List<Student> actualList = sut.search();
+        List<Student> actualList = sut.findStudentsByAll();
         Student actual = actualList.get(5);
         Student expected = new Student("6", "田中太郎", "タナカタロウ", "タロウ", "tanaka.tariu@example.com", "東京都", 25, "男性", "", false);
 
@@ -227,7 +227,7 @@ class StudentRepositoryTest {
 
         sut.registerStudentCourse(studentCourse);
 
-        List<StudentCourse> actualList = sut.searchStudentCourseList();
+        List<StudentCourse> actualList = sut.findStudentCoursesByAll();
         assertThat(actualList.size()).isEqualTo(11);
         StudentCourse actual = actualList.get(10);
         StudentCourse expected = new StudentCourse("11", "11", "TESTコース", now, now.plusYears(1));
@@ -240,7 +240,7 @@ class StudentRepositoryTest {
         CourseStatus courseStatus = new CourseStatus(null, "11", "仮申込");
 
         sut.registerCourseStatus(courseStatus);
-        List<CourseStatus> actualList = sut.searchCourseStatusList();
+        List<CourseStatus> actualList = sut.findCourseStatusByAll();
         CourseStatus actual = actualList.get(10);
         CourseStatus expected = new CourseStatus("11", "11", "仮申込");
 
@@ -253,7 +253,7 @@ class StudentRepositoryTest {
         Student expected = new Student("1", "山田花子", "ヤマダハナコ", "ハナコ", "yamada.hanako@example.com", "愛知県", 20, "女性", "変更しました", true);
 
         sut.updateStudent(expected);
-        Student actual = sut.searchStudentId("1");
+        Student actual = sut.searchStudentById("1");
 
         assertEquals(expected, actual);
     }
@@ -264,7 +264,7 @@ class StudentRepositoryTest {
 
         sut.updateStudentCourse(studentCourse);
 
-        List<StudentCourse> studentCourseList = sut.searchStudentCourse("1");
+        List<StudentCourse> studentCourseList = sut.searchStudentCourseById("1");
         StudentCourse actual = studentCourseList.get(0);
         StudentCourse expected = new StudentCourse("1", "1", "TESTコース", studentCoursesTestDataList().get(0).getCourseStart(), studentCoursesTestDataList().get(0).getCourseEnd());
 
@@ -276,7 +276,7 @@ class StudentRepositoryTest {
         CourseStatus expected = new CourseStatus("2", "2", "受講終了");
 
         sut.updateCourseStatus(expected);
-        CourseStatus actual = sut.searchCourseStatusList().get(1);
+        CourseStatus actual = sut.findCourseStatusByAll().get(1);
 
         assertEquals(expected, actual);
     }

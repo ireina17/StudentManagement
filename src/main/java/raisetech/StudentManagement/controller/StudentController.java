@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.domain.StudentDetail;
-import raisetech.StudentManagement.exception.CourseStatusNotAllowedException;
 import raisetech.StudentManagement.exception.UnavailableApiVersionException;
 import raisetech.StudentManagement.service.StudentService;
 
@@ -34,139 +34,60 @@ public class StudentController {
     }
 
     /**
-     * 受講生詳細の一覧検索です。
-     * 全件検索を行うので、条件指定は行いません。
-     *
-     * @return 受講生詳細の一覧(全件)
-     */
-    @Operation(summary = "受講生一覧検索", description = "受講生の検索を行います。", method = "/studentList")
-    @GetMapping("/studentList")
-    public List<StudentDetail> getStudentList() {
-        return service.searchStudentList();
-    }
-
-    /**
      * 受講生詳細の検索です。
      * IDに紐づく任意の受講生の情報を取得します。
      *
      * @param id 受講生ID
      * @return 受講生詳細
      */
-    @Operation(summary = "受講生検索", description = "受講生のID検索を行います。")
-    @GetMapping("/student/id={id}")
+    @Operation(summary = "受講生検索", description = "受講生のID検索を行います。", method = "/student/{id}")
+    @GetMapping("/student/{id}")
     public StudentDetail getStudent(@PathVariable String id) {
         if (!id.matches("\\d+$")) {
             throw new IllegalArgumentException("受講生IDは数字のみ入力するようにしてください。");
         }
-        return service.searchStudentId(id);
+        return service.searchStudentById(id);
     }
 
     /**
      * 受講生詳細の検索です。
-     * 任意に完全一致する名前の受講生の情報を取得します。(複数の場合あり)
+     * リスエストパラメータで任意に完全一致する受講生の情報を取得します。
+     * 指定がない場合は全ての受講生の情報を取得します。
      *
      * @return 受講生詳細
      */
-    @Operation(summary = "受講生名前検索", description = "受講生の名前を検索します。", method = "/student/name={name}")
-    @GetMapping("/student/name={name}")
-    public List<StudentDetail> getStudentName(@PathVariable String name) {
-        return service.searchStudentName(name);
-    }
-
-    /**
-     * 受講生詳細の検索です。
-     * 任意に完全一致するカナ名の受講生の情報を取得します。(複数の場合あり)
-     *
-     * @return 受講生詳細
-     */
-    @Operation(summary = "受講生カナ名検索", description = "受講生のカナ名を検索します。", method = "/student/kanaName={kanaName}")
-    @GetMapping("/student/kanaName={kanaName}")
-    public List<StudentDetail> getStudentKanaName(@PathVariable String kanaName) {
-        return service.searchStudentKanaName(kanaName);
-    }
-
-    /**
-     * 受講生詳細の検索です。
-     * 任意に完全一致するニックネームの受講生の情報を取得します。(複数の場合あり)
-     *
-     * @return 受講生詳細
-     */
-    @Operation(summary = "受講生ニックネーム検索", description = "受講生のニックネームを検索します。", method = "/student/nickname={nickname}")
-    @GetMapping("/student/nickname={nickname}")
-    public List<StudentDetail> getStudentNickname(@PathVariable String nickname) {
-        return service.searchStudentNickname(nickname);
-    }
-
-    /**
-     * 受講生詳細の検索です。
-     * 任意に完全一致するメールの受講生の情報を取得します。(複数の場合あり)
-     *
-     * @return 受講生詳細
-     */
-    @Operation(summary = "受講生メール検索", description = "受講生のメールを検索します。", method = "/student/email={email}")
-    @GetMapping("/student/email={email}")
-    public List<StudentDetail> getStudentEmail(@PathVariable String email) {
-        return service.searchStudentEmail(email);
-    }
-
-    /**
-     * 受講生詳細の検索です。
-     * 任意に完全一致する地域の受講生の情報を取得します。(複数の場合あり)
-     *
-     * @return 受講生詳細
-     */
-    @Operation(summary = "受講生地域検索", description = "受講生の地域を検索します。", method = "/student/area={area}")
-    @GetMapping("/student/area={area}")
-    public List<StudentDetail> getStudentArea(@PathVariable String area) {
-        return service.searchStudentArea(area);
-    }
-
-    /**
-     * 受講生詳細の検索です。
-     * 任意に完全一致する年齢の受講生の情報を取得します。(複数の場合あり)
-     *
-     * @return 受講生詳細
-     */
-    @Operation(summary = "受講生年齢検索", description = "受講生の年齢を検索します。", method = "/student/age={age}")
-    @GetMapping("/student/age={age}")
-    public List<StudentDetail> getStudentAge(@PathVariable String age) {
-        return service.searchStudentAge(age);
-    }
-
-    /**
-     * 受講生詳細の検索です。
-     * 任意に完全一致する性別の受講生の情報を取得します。(複数の場合あり)
-     *
-     * @return 受講生詳細
-     */
-    @Operation(summary = "受講生性別検索", description = "受講生の性別を検索します。", method = "/student/sex={sex}")
-    @GetMapping("/student/sex={sex}")
-    public List<StudentDetail> getStudentSex(@PathVariable String sex) {
-        return service.searchStudentSex(sex);
-    }
-
-    /**
-     * 受講生詳細の検索です。
-     * 任意に完全一致する備考の受講生の情報を取得します。(複数の場合あり)
-     *
-     * @return 受講生詳細
-     */
-    @Operation(summary = "受講生備考検索", description = "受講生の備考を検索します。", method = "/student/remark={remark}")
-    @GetMapping("/student/remark={remark}")
-    public List<StudentDetail> getStudentRemark(@PathVariable String remark) {
-        return service.searchStudentRemark(remark);
-    }
-
-    /**
-     * 受講生詳細の検索です。
-     * 任意に完全一致する削除フラグの受講生の情報を取得します。(複数の場合あり)
-     *
-     * @return 受講生詳細
-     */
-    @Operation(summary = "受講生削除フラグ検索", description = "受講生の削除フラグを検索します。", method = "/student/isDeleted={isDeleted}")
-    @GetMapping("/student/isDeleted={isDeleted}")
-    public List<StudentDetail> getStudentIsDeleted(@PathVariable String isDeleted) {
-        return service.searchStudentIsDeleted(isDeleted);
+    @Operation(summary = "受講生検索", description = "受講生の名前を検索します。", method = "/student")
+    @GetMapping("/student")
+    public List<StudentDetail> getStudentList(@RequestParam(required = false) String name,
+                                              @RequestParam(required = false) String kanaName,
+                                              @RequestParam(required = false) String nickname,
+                                              @RequestParam(required = false) String email,
+                                              @RequestParam(required = false) String area,
+                                              @RequestParam(required = false) String age,
+                                              @RequestParam(required = false) String sex,
+                                              @RequestParam(required = false) String remark,
+                                              @RequestParam(required = false) String isDeleted) {
+        if (name != null) {
+            return service.findStudentsByName(name);
+        } else if (kanaName != null) {
+            return service.findStudentsByKanaName(kanaName);
+        } else if (nickname != null) {
+            return service.findStudentsByNickname(nickname);
+        } else if (email != null) {
+            return service.findStudentsByEmail(email);
+        } else if (area != null) {
+            return service.findStudentsByArea(area);
+        } else if (age != null) {
+            return service.findStudentsByAge(age);
+        } else if (sex != null) {
+            return service.findStudentsBySex(sex);
+        } else if (remark != null) {
+            return service.findStudentsByRemark(remark);
+        } else if (isDeleted != null) {
+            return service.findStudentsByDeleted(isDeleted);
+        } else {
+            return service.findStudentsByAll();
+        }
     }
 
     /**
@@ -176,9 +97,9 @@ public class StudentController {
      * @return コース申し込み状況の一覧(全件)
      */
     @Operation(summary = "コース申し込み状況一覧検索", description = "コース申し込み状況の検索を行います。", method = "/courseStatusList")
-    @GetMapping("/courseStatusList")
+    @GetMapping("/courseStatus")
     public List<CourseStatus> getCourseStatusList() {
-        return service.searchCourseStatusList();
+        return service.findCourseStatusByAll();
     }
 
     /**
@@ -189,7 +110,7 @@ public class StudentController {
      * @return コース申し込み状況
      */
     @Operation(summary = "コース申し込み状況検索", description = "コース申し込み状況のID検索を行います。")
-    @GetMapping("/courseStatus/id={id}")
+    @GetMapping("/courseStatus/{id}")
     public CourseStatus getCourseStatus(@PathVariable String id) {
         if (!id.matches("\\d+$")) {
             throw new IllegalArgumentException("コース申し込み状況IDは数字のみ入力するようにしてください。");
@@ -232,14 +153,7 @@ public class StudentController {
      */
     @Operation(summary = "コース申し込み状況", description = "コース申し込み状況の更新を行います。")
     @PutMapping("/updateCourseStatus")
-    public ResponseEntity<String> updateCourseStatus(@RequestBody @Valid CourseStatus courseStatus) throws CourseStatusNotAllowedException {
-        String status = courseStatus.getCourseStatus();
-        if (!status.equals("仮申込") &&
-                !status.equals("本申込") &&
-                !status.equals("受講中") &&
-                !status.equals("受講終了")) {
-            throw new CourseStatusNotAllowedException();
-        }
+    public ResponseEntity<String> updateCourseStatus(@RequestBody @Valid CourseStatus courseStatus) {
         service.updateCourseStatus(courseStatus);
         return ResponseEntity.ok("更新処理が成功しました。");
     }

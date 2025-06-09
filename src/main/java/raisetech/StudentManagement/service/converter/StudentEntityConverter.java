@@ -32,7 +32,7 @@ public class StudentEntityConverter {
     public List<StudentDetail> convertStudentDetail(List<Student> students) {
         List<StudentDetail> studentDetails = new ArrayList<>();
         for (Student student : students) {
-            StudentDetail studentDetail = new StudentDetail(student, repository.searchStudentCourse(student.getId()));
+            StudentDetail studentDetail = new StudentDetail(student, repository.searchStudentCourseById(student.getId()));
             studentDetails.add(studentDetail);
         }
         return studentDetails;
