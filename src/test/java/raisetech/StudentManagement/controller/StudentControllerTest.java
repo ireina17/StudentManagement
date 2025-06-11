@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import raisetech.StudentManagement.controller.dto.request.StudentRequest;
 import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -41,11 +42,12 @@ class StudentControllerTest {
 
     @Test
     void 受講生詳細の一覧検索が実行できて空のリストが返ってくること() throws Exception {
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, null, null, null);
         mockMvc.perform(MockMvcRequestBuilders.get("/student"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).findStudentsByAll();
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test
@@ -73,109 +75,118 @@ class StudentControllerTest {
     @Test
     void 受講生詳細の受講生名前検索が実行できて空のリストが返ってくること() throws Exception {
         String name = "田中太郎";
-        when(service.findStudentsByName(name)).thenReturn(List.of());
+        StudentRequest studentRequest = new StudentRequest(null, name, null, null, null, null, null, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/student?name={name}", name))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).findStudentsByName(name);
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test
     void 受講生詳細の受講生カナ名検索が実行できて空のリストが返ってくること() throws Exception {
         String kanaName = "タナカタロウ";
-        when(service.findStudentsByKanaName(kanaName)).thenReturn(List.of());
+        StudentRequest studentRequest = new StudentRequest(null, null, kanaName, null, null, null, null, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/student?kanaName={kanaName}", kanaName))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).findStudentsByKanaName(kanaName);
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test
     void 受講生詳細の受講生ニックネーム検索が実行できて空のリストが返ってくること() throws Exception {
         String nickname = "タロウ";
-        when(service.findStudentsByNickname(nickname)).thenReturn(List.of());
+        StudentRequest studentRequest = new StudentRequest(null, null, null, nickname, null, null, null, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/student?nickname={nickname}", nickname))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).findStudentsByNickname(nickname);
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test
     void 受講生詳細の受講生メール検索が実行できて空のリストが返ってくること() throws Exception {
         String email = "test@example.com";
-        when(service.findStudentsByEmail(email)).thenReturn(List.of());
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, email, null, null, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/student?email={email}", email))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).findStudentsByEmail(email);
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test
     void 受講生詳細の受講生地域検索が実行できて空のリストが返ってくること() throws Exception {
         String area = "東京都";
-        when(service.findStudentsByArea(area)).thenReturn(List.of());
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, area, null, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/student?area={area}", area))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).findStudentsByArea(area);
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test
     void 受講生詳細の受講生年齢検索が実行できて空のリストが返ってくること() throws Exception {
         String age = "20";
-        when(service.findStudentsByAge(age)).thenReturn(List.of());
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, age, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/student?age={age}", age))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).findStudentsByAge(age);
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test
     void 受講生詳細の受講生性別検索が実行できて空のリストが返ってくること() throws Exception {
         String sex = "男性";
-        when(service.findStudentsBySex(sex)).thenReturn(List.of());
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, sex, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/student?sex={sex}", sex))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).findStudentsBySex(sex);
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test
     void 受講生詳細の受講生備考検索が実行できて空のリストが返ってくること() throws Exception {
         String remark = "テストです。";
-        when(service.findStudentsByRemark(remark)).thenReturn(List.of());
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, null, remark, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/student?remark={remark}", remark))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).findStudentsByRemark(remark);
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test
     void 受講生詳細の受講生削除フラグ検索が実行できて空のリストが返ってくること() throws Exception {
         String isDeleted = "true";
-        when(service.findStudentsByDeleted(isDeleted)).thenReturn(List.of());
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, null, null, isDeleted);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/student?isDeleted={isDeleted}", isDeleted))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).findStudentsByDeleted(isDeleted);
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
+import raisetech.StudentManagement.controller.dto.request.StudentRequest;
 import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -34,18 +35,6 @@ public class StudentService {
     }
 
     /**
-     * 受講生詳細の一覧検索です。
-     * 全件検索を行うので、条件指定は行いません。
-     *
-     * @return 受講生詳細一覧(全件)
-     */
-    public List<StudentDetail> findStudentsByAll() {
-        List<Student> studentList = repository.findStudentsByAll();
-        List<StudentCourse> studentCourseList = repository.findStudentCoursesByAll();
-        return converter.convertStudentDetails(studentList, studentCourseList);
-    }
-
-    /**
      * 受講生検索です。
      * IDに紐づく受講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
      *
@@ -62,111 +51,49 @@ public class StudentService {
     }
 
     /**
-     * 受講生検索です。
-     * 完全一致するnameの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     * 受講生詳細の一覧検索です。
+     * リクエストパラメータの名前、カナ名,ニックネーム、メール、地域、年齢、性別、備考、削除フラグを
+     * １つ受け取り条件に応じで完全一致する受講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
+     * リクエストパラメータがない場合は全件検索を行う。
      *
-     * @param name 受講生のname
+     * @param studentRequest 受講生のリクエストパラメータ
      * @return 受講生詳細
-     */
-    public List<StudentDetail> findStudentsByName(String name) {
-        List<Student> studentList = repository.findStudentsByName(name);
-        return entityConverter.convertStudentDetail(studentList);
-    }
+     **/
+    public List<StudentDetail> findStudents(StudentRequest studentRequest) {
+        List<Student> studentList;
 
-    /**
-     * 受講生検索です。
-     * 完全一致するkanaNameの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
-     *
-     * @param kanaName 受講生のkanaName
-     * @return 受講生詳細
-     */
-    public List<StudentDetail> findStudentsByKanaName(String kanaName) {
-        List<Student> studentList = repository.findStudentsByKanaName(kanaName);
-        return entityConverter.convertStudentDetail(studentList);
-    }
-
-    /**
-     * 受講生検索です。
-     * 完全一致するnicknameの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
-     *
-     * @param nickname 受講生のnickname
-     * @return 受講生詳細
-     */
-    public List<StudentDetail> findStudentsByNickname(String nickname) {
-        List<Student> studentList = repository.findStudentsByNickname(nickname);
-        return entityConverter.convertStudentDetail(studentList);
-    }
-
-    /**
-     * 受講生検索です。
-     * 完全一致するemailの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
-     *
-     * @param email 受講生のemail
-     * @return 受講生詳細
-     */
-    public List<StudentDetail> findStudentsByEmail(String email) {
-        List<Student> studentList = repository.findStudentsByEmail(email);
-        return entityConverter.convertStudentDetail(studentList);
-    }
-
-    /**
-     * 受講生検索です。
-     * 完全一致するareaの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
-     *
-     * @param area 受講生のarea
-     * @return 受講生詳細
-     */
-    public List<StudentDetail> findStudentsByArea(String area) {
-        List<Student> studentList = repository.findStudentsByArea(area);
-        return entityConverter.convertStudentDetail(studentList);
-    }
-
-    /**
-     * 受講生検索です。
-     * 完全一致するageの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
-     *
-     * @param age 受講生のage
-     * @return 受講生詳細
-     */
-    public List<StudentDetail> findStudentsByAge(String age) {
-        List<Student> studentList = repository.findStudentsByAge(age);
-        return entityConverter.convertStudentDetail(studentList);
-    }
-
-    /**
-     * 受講生検索です。
-     * 完全一致するsexの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
-     *
-     * @param sex 受講生のsex
-     * @return 受講生詳細
-     */
-    public List<StudentDetail> findStudentsBySex(String sex) {
-        List<Student> studentList = repository.findStudentsBySex(sex);
-        return entityConverter.convertStudentDetail(studentList);
-    }
-
-    /**
-     * 受講生検索です。
-     * 完全一致するremarkの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
-     *
-     * @param remark 受講生のremark
-     * @return 受講生詳細
-     */
-    public List<StudentDetail> findStudentsByRemark(String remark) {
-        List<Student> studentList = repository.findStudentsByRemark(remark);
-        return entityConverter.convertStudentDetail(studentList);
-    }
-
-    /**
-     * 受講生検索です。
-     * 完全一致するisDeletedの講生情報を取得したあと、その受講生に紐づく受講生コース情報を取得して設定します。
-     *
-     * @param isDeleted 受講生のisDeleted
-     * @return 受講生詳細
-     */
-    public List<StudentDetail> findStudentsByDeleted(String isDeleted) {
-        List<Student> studentList = repository.findStudentsByIsDeleted(isDeleted);
-        return entityConverter.convertStudentDetail(studentList);
+        if (studentRequest.getName() != null) {
+            studentList = repository.findStudentsByName(studentRequest.getName());
+            return entityConverter.convertStudentDetail(studentList);
+        } else if (studentRequest.getKanaName() != null) {
+            studentList = repository.findStudentsByKanaName(studentRequest.getKanaName());
+            return entityConverter.convertStudentDetail(studentList);
+        } else if (studentRequest.getNickname() != null) {
+            studentList = repository.findStudentsByNickname(studentRequest.getNickname());
+            return entityConverter.convertStudentDetail(studentList);
+        } else if (studentRequest.getEmail() != null) {
+            studentList = repository.findStudentsByEmail(studentRequest.getEmail());
+            return entityConverter.convertStudentDetail(studentList);
+        } else if (studentRequest.getArea() != null) {
+            studentList = repository.findStudentsByArea(studentRequest.getArea());
+            return entityConverter.convertStudentDetail(studentList);
+        } else if (studentRequest.getAge() != null) {
+            studentList = repository.findStudentsByAge(studentRequest.getAge());
+            return entityConverter.convertStudentDetail(studentList);
+        } else if (studentRequest.getSex() != null) {
+            studentList = repository.findStudentsBySex(studentRequest.getSex());
+            return entityConverter.convertStudentDetail(studentList);
+        } else if (studentRequest.getRemark() != null) {
+            studentList = repository.findStudentsByRemark(studentRequest.getRemark());
+            return entityConverter.convertStudentDetail(studentList);
+        } else if (studentRequest.getIsDeleted() != null) {
+            studentList = repository.findStudentsByIsDeleted(studentRequest.getIsDeleted());
+            return entityConverter.convertStudentDetail(studentList);
+        } else {
+            studentList = repository.findStudentsByAll();
+            List<StudentCourse> studentCourseList = repository.findStudentCoursesByAll();
+            return converter.convertStudentDetails(studentList, studentCourseList);
+        }
     }
 
     /**

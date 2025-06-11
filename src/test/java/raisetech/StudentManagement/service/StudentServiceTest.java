@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
+import raisetech.StudentManagement.controller.dto.request.StudentRequest;
 import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -46,11 +47,12 @@ class StudentServiceTest {
         //事前準備
         List<Student> studentList = new ArrayList<>();
         List<StudentCourse> studentCourseList = new ArrayList<>();
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, null, null, null);
         when(repository.findStudentsByAll()).thenReturn(studentList);
         when(repository.findStudentCoursesByAll()).thenReturn(studentCourseList);
 
         // 実行
-        sut.findStudentsByAll();
+        sut.findStudents(studentRequest);
 
         // 検証
         verify(repository, Mockito.times(1)).findStudentsByAll();
@@ -86,6 +88,7 @@ class StudentServiceTest {
         LocalDateTime now = LocalDateTime.now();
         Student student = new Student("999", "田中太郎", "タナカタロウ", "タロウ", "test@example.com", "東京都", 20, "男性", "テストです。", false);
         StudentCourse studentCourse = new StudentCourse("999", "999", "JAVAコース", now, now.plusYears(1));
+        StudentRequest studentRequest = new StudentRequest(null, name, null, null, null, null, null, null, null, null);
 
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
@@ -94,7 +97,7 @@ class StudentServiceTest {
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.findStudentsByName(name);
+        List<StudentDetail> actual = sut.findStudents(studentRequest);
 
         verify(repository, Mockito.times(1)).findStudentsByName(name);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
@@ -108,6 +111,7 @@ class StudentServiceTest {
         LocalDateTime now = LocalDateTime.now();
         Student student = new Student("999", "田中太郎", "タナカタロウ", "タロウ", "test@example.com", "東京都", 20, "男性", "テストです。", false);
         StudentCourse studentCourse = new StudentCourse("999", "999", "JAVAコース", now, now.plusYears(1));
+        StudentRequest studentRequest = new StudentRequest(null, null, kanaName, null, null, null, null, null, null, null);
 
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
@@ -116,7 +120,7 @@ class StudentServiceTest {
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.findStudentsByKanaName(kanaName);
+        List<StudentDetail> actual = sut.findStudents(studentRequest);
 
         verify(repository, Mockito.times(1)).findStudentsByKanaName(kanaName);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
@@ -130,6 +134,7 @@ class StudentServiceTest {
         LocalDateTime now = LocalDateTime.now();
         Student student = new Student("999", "田中太郎", "タナカタロウ", "タロウ", "test@example.com", "東京都", 20, "男性", "テストです。", false);
         StudentCourse studentCourse = new StudentCourse("999", "999", "JAVAコース", now, now.plusYears(1));
+        StudentRequest studentRequest = new StudentRequest(null, null, null, nickname, null, null, null, null, null, null);
 
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
@@ -138,7 +143,7 @@ class StudentServiceTest {
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.findStudentsByNickname(nickname);
+        List<StudentDetail> actual = sut.findStudents(studentRequest);
 
         verify(repository, Mockito.times(1)).findStudentsByNickname(nickname);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
@@ -152,6 +157,7 @@ class StudentServiceTest {
         LocalDateTime now = LocalDateTime.now();
         Student student = new Student("999", "田中太郎", "タナカタロウ", "タロウ", "test@example.com", "東京都", 20, "男性", "テストです。", false);
         StudentCourse studentCourse = new StudentCourse("999", "999", "JAVAコース", now, now.plusYears(1));
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, email, null, null, null, null, null);
 
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
@@ -160,7 +166,7 @@ class StudentServiceTest {
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.findStudentsByEmail(email);
+        List<StudentDetail> actual = sut.findStudents(studentRequest);
 
         verify(repository, Mockito.times(1)).findStudentsByEmail(email);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
@@ -174,6 +180,7 @@ class StudentServiceTest {
         LocalDateTime now = LocalDateTime.now();
         Student student = new Student("999", "田中太郎", "タナカタロウ", "タロウ", "test@example.com", "東京都", 20, "男性", "テストです。", false);
         StudentCourse studentCourse = new StudentCourse("999", "999", "JAVAコース", now, now.plusYears(1));
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, area, null, null, null, null);
 
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
@@ -182,7 +189,7 @@ class StudentServiceTest {
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.findStudentsByArea(area);
+        List<StudentDetail> actual = sut.findStudents(studentRequest);
 
         verify(repository, Mockito.times(1)).findStudentsByArea(area);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
@@ -196,6 +203,7 @@ class StudentServiceTest {
         LocalDateTime now = LocalDateTime.now();
         Student student = new Student("999", "田中太郎", "タナカタロウ", "タロウ", "test@example.com", "東京都", 20, "男性", "テストです。", false);
         StudentCourse studentCourse = new StudentCourse("999", "999", "JAVAコース", now, now.plusYears(1));
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, age, null, null, null);
 
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
@@ -204,7 +212,7 @@ class StudentServiceTest {
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.findStudentsByAge(age);
+        List<StudentDetail> actual = sut.findStudents(studentRequest);
 
         verify(repository, Mockito.times(1)).findStudentsByAge(age);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
@@ -218,6 +226,7 @@ class StudentServiceTest {
         LocalDateTime now = LocalDateTime.now();
         Student student = new Student("999", "田中太郎", "タナカタロウ", "タロウ", "test@example.com", "東京都", 20, "男性", "テストです。", false);
         StudentCourse studentCourse = new StudentCourse("999", "999", "JAVAコース", now, now.plusYears(1));
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, sex, null, null);
 
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
@@ -226,7 +235,7 @@ class StudentServiceTest {
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.findStudentsBySex(sex);
+        List<StudentDetail> actual = sut.findStudents(studentRequest);
 
         verify(repository, Mockito.times(1)).findStudentsBySex(sex);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
@@ -240,6 +249,7 @@ class StudentServiceTest {
         LocalDateTime now = LocalDateTime.now();
         Student student = new Student("999", "田中太郎", "タナカタロウ", "タロウ", "test@example.com", "東京都", 20, "男性", "テストです。", false);
         StudentCourse studentCourse = new StudentCourse("999", "999", "JAVAコース", now, now.plusYears(1));
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, null, remark, null);
 
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
@@ -248,7 +258,7 @@ class StudentServiceTest {
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.findStudentsByRemark(remark);
+        List<StudentDetail> actual = sut.findStudents(studentRequest);
 
         verify(repository, Mockito.times(1)).findStudentsByRemark(remark);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);
@@ -265,12 +275,13 @@ class StudentServiceTest {
 
         List<Student> studentList = List.of(student);
         List<StudentDetail> studentDetailList = List.of(new StudentDetail(student, List.of(studentCourse)));
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, null, null, isDeleted);
 
         when(repository.findStudentsByIsDeleted(isDeleted)).thenReturn(studentList);
         when(entityConverter.convertStudentDetail(studentList)).thenReturn(studentDetailList);
 
         List<StudentDetail> expected = studentDetailList;
-        List<StudentDetail> actual = sut.findStudentsByDeleted(isDeleted);
+        List<StudentDetail> actual = sut.findStudents(studentRequest);
 
         verify(repository, Mockito.times(1)).findStudentsByIsDeleted(isDeleted);
         verify(entityConverter, Mockito.times(1)).convertStudentDetail(studentList);

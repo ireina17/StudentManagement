@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import raisetech.StudentManagement.controller.dto.request.StudentRequest;
 import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.exception.UnavailableApiVersionException;
@@ -58,36 +59,8 @@ public class StudentController {
      */
     @Operation(summary = "受講生検索", description = "受講生の名前を検索します。", method = "/student")
     @GetMapping("/student")
-    public List<StudentDetail> getStudentList(@RequestParam(required = false) String name,
-                                              @RequestParam(required = false) String kanaName,
-                                              @RequestParam(required = false) String nickname,
-                                              @RequestParam(required = false) String email,
-                                              @RequestParam(required = false) String area,
-                                              @RequestParam(required = false) String age,
-                                              @RequestParam(required = false) String sex,
-                                              @RequestParam(required = false) String remark,
-                                              @RequestParam(required = false) String isDeleted) {
-        if (name != null) {
-            return service.findStudentsByName(name);
-        } else if (kanaName != null) {
-            return service.findStudentsByKanaName(kanaName);
-        } else if (nickname != null) {
-            return service.findStudentsByNickname(nickname);
-        } else if (email != null) {
-            return service.findStudentsByEmail(email);
-        } else if (area != null) {
-            return service.findStudentsByArea(area);
-        } else if (age != null) {
-            return service.findStudentsByAge(age);
-        } else if (sex != null) {
-            return service.findStudentsBySex(sex);
-        } else if (remark != null) {
-            return service.findStudentsByRemark(remark);
-        } else if (isDeleted != null) {
-            return service.findStudentsByDeleted(isDeleted);
-        } else {
-            return service.findStudentsByAll();
-        }
+    public List<StudentDetail> getStudentList(@ModelAttribute StudentRequest studentRequest) {
+        return service.findStudents(studentRequest);
     }
 
     /**
