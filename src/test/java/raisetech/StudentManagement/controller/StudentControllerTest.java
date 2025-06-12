@@ -11,12 +11,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import raisetech.StudentManagement.controller.dto.request.StudentRequest;
+import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,23 +42,24 @@ class StudentControllerTest {
 
     @Test
     void 受講生詳細の一覧検索が実行できて空のリストが返ってくること() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/studentList"))
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, null, null, null);
+        mockMvc.perform(MockMvcRequestBuilders.get("/student"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(service, Mockito.times(1)).searchStudentList();
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
     }
 
     @Test
     void 受講生詳細の受講生ID検索が実行できて空のリストが返ってくること() throws Exception {
         String id = "999";
         StudentDetail studentDetail = new StudentDetail();
-        when(service.searchStudent(id)).thenReturn(new StudentDetail());
+        when(service.searchStudentById(id)).thenReturn(new StudentDetail());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/student/{id}", id))
                 .andExpect(status().isOk());
 
-        verify(service, Mockito.times(1)).searchStudent(id);
+        verify(service, Mockito.times(1)).searchStudentById(id);
     }
 
     @Test
@@ -66,6 +70,144 @@ class StudentControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/student/{id}", id))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("受講生IDは数字のみ入力するようにしてください。"));
+    }
+
+    @Test
+    void 受講生詳細の受講生名前検索が実行できて空のリストが返ってくること() throws Exception {
+        String name = "田中太郎";
+        StudentRequest studentRequest = new StudentRequest(null, name, null, null, null, null, null, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?name={name}", name))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
+    }
+
+    @Test
+    void 受講生詳細の受講生カナ名検索が実行できて空のリストが返ってくること() throws Exception {
+        String kanaName = "タナカタロウ";
+        StudentRequest studentRequest = new StudentRequest(null, null, kanaName, null, null, null, null, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?kanaName={kanaName}", kanaName))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
+    }
+
+    @Test
+    void 受講生詳細の受講生ニックネーム検索が実行できて空のリストが返ってくること() throws Exception {
+        String nickname = "タロウ";
+        StudentRequest studentRequest = new StudentRequest(null, null, null, nickname, null, null, null, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?nickname={nickname}", nickname))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
+    }
+
+    @Test
+    void 受講生詳細の受講生メール検索が実行できて空のリストが返ってくること() throws Exception {
+        String email = "test@example.com";
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, email, null, null, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?email={email}", email))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
+    }
+
+    @Test
+    void 受講生詳細の受講生地域検索が実行できて空のリストが返ってくること() throws Exception {
+        String area = "東京都";
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, area, null, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?area={area}", area))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
+    }
+
+    @Test
+    void 受講生詳細の受講生年齢検索が実行できて空のリストが返ってくること() throws Exception {
+        String age = "20";
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, age, null, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?age={age}", age))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
+    }
+
+    @Test
+    void 受講生詳細の受講生性別検索が実行できて空のリストが返ってくること() throws Exception {
+        String sex = "男性";
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, sex, null, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?sex={sex}", sex))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
+    }
+
+    @Test
+    void 受講生詳細の受講生備考検索が実行できて空のリストが返ってくること() throws Exception {
+        String remark = "テストです。";
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, null, remark, null);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?remark={remark}", remark))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
+    }
+
+    @Test
+    void 受講生詳細の受講生削除フラグ検索が実行できて空のリストが返ってくること() throws Exception {
+        String isDeleted = "true";
+        StudentRequest studentRequest = new StudentRequest(null, null, null, null, null, null, null, null, null, isDeleted);
+        when(service.findStudents(studentRequest)).thenReturn(List.of());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/student?isDeleted={isDeleted}", isDeleted))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).findStudents(studentRequest);
+    }
+
+    @Test
+    void コース申し込み状況の検索が実行できること() throws Exception {
+        String id = "999";
+        CourseStatus courseStatus = new CourseStatus();
+        when((service.searchCourseStatus(id))).thenReturn(courseStatus);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/courseStatus/{id}", id))
+                .andExpect(status().isOk());
+
+        verify(service, Mockito.times(1)).searchCourseStatus(id);
+    }
+
+    @Test
+    void コース申し込み状況の一覧検索が実行できて空のリストが返ってくること() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/courseStatus"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+
+        verify(service, Mockito.times(1)).findCourseStatusByAll();
     }
 
     @Test
@@ -130,6 +272,40 @@ class StudentControllerTest {
                         ))
                 .andExpect(status().isOk());
         verify(service, Mockito.times(1)).updateStudent(any());
+    }
+
+    @Test
+    void 申し込み状況の更新が実行できて空が返ってくること() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/updateCourseStatus")
+                        .contentType(MediaType.APPLICATION_JSON).content(
+                                """
+                                                    {
+                                                    "id" : "1",
+                                                    "courseId" : "1",
+                                                    "courseStatus" : "本申込"
+                                                }
+                                        """
+                        ))
+                .andExpect(status().isOk());
+        verify(service, Mockito.times(1)).updateCourseStatus(any());
+    }
+
+    @Test
+    void 申し込み状況の例外APIが実行できてステータスが400で返ってくること() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/updateCourseStatus")
+                        .contentType(MediaType.APPLICATION_JSON).content(
+                                """
+                                                    {
+                                                    "id" : "1",
+                                                    "courseId" : "1",
+                                                    "courseStatus" : "テストです。"
+                                                }
+                                        """
+                        ))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().json("[入力されたコースステータスは許可されていません。仮申込／本申込／受講中／受講終了を入力してください。]"));
     }
 
     @Test
@@ -409,4 +585,51 @@ class StudentControllerTest {
         assertThat(violations.size()).isEqualTo(1);
     }
 
+    @Test
+    void コース申し込み状況で適切な値を入力時に入力チェックに異常が発生しないこと() {
+        CourseStatus courseStatus = new CourseStatus("999", "999", "仮申込");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(0);
+    }
+
+    @Test
+    void コース申し込み状況でidが入力時に入力チェックに異常が発生すること() {
+        CourseStatus courseStatus = new CourseStatus("", "999", "仮申込");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(1);
+    }
+
+    @Test
+    void コース申し込み状況でidが入力時に数値以外を入力チェックに異常が発生すること() {
+        CourseStatus courseStatus = new CourseStatus("テストです。", "999", "仮申込");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(1);
+    }
+
+    @Test
+    void コース申し込み状況でcourseIdが入力時に入力チェックに異常が発生すること() {
+        CourseStatus courseStatus = new CourseStatus("999", "", "仮申込");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(1);
+    }
+
+    @Test
+    void コース申し込み状況でcourseIdが数値以外を入力時に入力チェックに異常が発生すること() {
+        CourseStatus courseStatus = new CourseStatus("999", "テストです。", "仮申込");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(1);
+    }
+
+    @Test
+    void コース申し込み状況で申し込み状況が入力時に入力チェックに異常が発生すること() {
+        CourseStatus courseStatus = new CourseStatus("999", "999", "");
+
+        Set<ConstraintViolation<CourseStatus>> violations = validator.validate(courseStatus);
+        assertThat(violations.size()).isEqualTo(1);
+    }
 }

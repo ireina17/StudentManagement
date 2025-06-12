@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.repository;
 
 import org.apache.ibatis.annotations.Mapper;
+import raisetech.StudentManagement.data.CourseStatus;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 
@@ -19,22 +20,94 @@ public interface StudentRepository {
      *
      * @return 受講生一覧(全件)
      */
-    List<Student> search();
+    List<Student> findStudentsByAll();
 
     /**
-     * 受講生の検索を行います。
+     * 受講生のid検索を行います。
      *
      * @param id 受講生ID
      * @return 受講生
      */
-    Student searchStudent(String id);
+    Student searchStudentById(String id);
+
+    /**
+     * 受講生の名前検索を行います。
+     *
+     * @param name 受講生のName
+     * @return 受講生
+     */
+    List<Student> findStudentsByName(String name);
+
+    /**
+     * 受講生のカナ名検索を行います。
+     *
+     * @param kanaName 受講生のKanaName
+     * @return 受講生
+     */
+    List<Student> findStudentsByKanaName(String kanaName);
+
+    /**
+     * 受講生のニックネーム検索を行います。
+     *
+     * @param nickname 受講生のnickname
+     * @return 受講生
+     */
+    List<Student> findStudentsByNickname(String nickname);
+
+    /**
+     * 受講生のメール検索を行います。
+     *
+     * @param email 受講生のemail
+     * @return 受講生
+     */
+    List<Student> findStudentsByEmail(String email);
+
+    /**
+     * 受講生の地域検索を行います。
+     *
+     * @param area 受講生のarea
+     * @return 受講生
+     */
+    List<Student> findStudentsByArea(String area);
+
+    /**
+     * 受講生の年齢検索を行います。
+     *
+     * @param age 受講生のage
+     * @return 受講生
+     */
+    List<Student> findStudentsByAge(String age);
+
+    /**
+     * 受講生の性別検索を行います。
+     *
+     * @param sex 受講生のsex
+     * @return 受講生
+     */
+    List<Student> findStudentsBySex(String sex);
+
+    /**
+     * 受講生の備考検索を行います。
+     *
+     * @param remark 受講生のremark
+     * @return 受講生
+     */
+    List<Student> findStudentsByRemark(String remark);
+
+    /**
+     * 受講生の削除フラグ検索を行います。
+     *
+     * @param isDeleted 受講生のisDeleted
+     * @return 受講生
+     */
+    List<Student> findStudentsByIsDeleted(String isDeleted);
 
     /**
      * 受講生のコース情報の全件検索を行います。
      *
      * @return 受講生のコース情報(全件)
      */
-    List<StudentCourse> searchStudentCourseList();
+    List<StudentCourse> findStudentCoursesByAll();
 
     /**
      * 受講生IDに紐づく受講生コース情報を検索します。
@@ -42,7 +115,22 @@ public interface StudentRepository {
      * @param studentId 受講生ID
      * @return 受講生IDに紐づく受講生コース情報
      */
-    List<StudentCourse> searchStudentCourse(String studentId);
+    List<StudentCourse> searchStudentCourseById(String studentId);
+
+    /**
+     * コース申し込み状況の全件検索します。
+     *
+     * @return コース申し込み状況(全件)
+     */
+    List<CourseStatus> findCourseStatusByAll();
+
+    /**
+     * コース申し込み状況IDに紐づくコース申し込み状況の検索します。
+     *
+     * @param id 　コース申し込み状況ID
+     * @return コース申し込み状況IDに紐づくコース申し込み状況
+     */
+    CourseStatus searchCourseStatus(String id);
 
     /**
      * 受講生を新規登録します。
@@ -61,6 +149,14 @@ public interface StudentRepository {
     void registerStudentCourse(StudentCourse studentCourse);
 
     /**
+     * コース申し込み状況を新規登録します。
+     * IDに関しては自動採番を行う。
+     *
+     * @param courseStatus 受講生コースID
+     */
+    void registerCourseStatus(CourseStatus courseStatus);
+
+    /**
      * 受講生を更新します。
      *
      * @param student 受講生
@@ -74,4 +170,10 @@ public interface StudentRepository {
      */
     void updateStudentCourse(StudentCourse studentCourse);
 
+    /**
+     * コース申し込み状況を更新します。
+     *
+     * @param courseStatus コース申し込み状況
+     */
+    void updateCourseStatus(CourseStatus courseStatus);
 }

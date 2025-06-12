@@ -1,9 +1,9 @@
 INSERT INTO student (name, kana_name, nickname, email, area, age, sex,remark,is_deleted) VALUES
-    ('佐藤太郎', 'サトウタロウ', 'たろう', 'taro.sato@example.com', '東京', 20, '男性','',false),
+    ('佐藤太郎', 'サトウタロウ', 'タロウ', 'taro.sato@example.com', '東京', 20, '男性','テストです。',true),
     ('鈴木花子', 'スズキハナコ', 'ハナコ', 'hanako.suzuki@example.com', '大阪', 32, '女性','',false),
-    ('高橋一郎', 'タカハシイチロウ', 'イチ', 'ichiro.takahashi@example.com', '愛知', 22, '男性','',false),
+    ('高橋一郎', 'タカハシイチロウ', 'イチ', 'ichiro.takahashi@example.com', '愛知', 22, 'その他','その他',false),
     ('田中美咲', 'タナカミサキ', 'ミサキ', 'misaki.tanaka@example.com', '福岡', 19, '女性','',false),
-    ('伊藤健', 'イトウケン', 'ケン', 'ken.ito@example.com', '北海道', 40, 'その他','',false);
+    ('佐藤太郎', 'サトウタロウ', 'タロウ', 'taro.sato@example.com', '東京', 20, '男性','テストです。',true);
 
 INSERT INTO students_courses (student_id, course_name, course_start, course_end) VALUES
     ('1', 'JAVAコース', '2024-04-01 09:00:00', '2025-04-01 09:00:00'),
@@ -16,3 +16,15 @@ INSERT INTO students_courses (student_id, course_name, course_start, course_end)
     ('4', 'JAVAコース', '2024-07-01 10:00:00', '2025-07-01 10:00:00'),
     ('5', 'デザインコース', '2024-08-01 09:00:00', '2025-08-01 09:00:00'),
     ('5', 'JAVAコース', '2024-08-01 10:00:00', '2025-08-01 10:00:00');
+
+INSERT INTO course_status (course_id, course_status) VALUES
+    ('1','受講終了'),
+    ('2','本申込'),
+    ('3','受講終了'),
+    ('4','受講中'),
+    ('5','仮申込'),
+    ('6','仮申込'),
+    ('7','受講終了'),
+    ('8','本申込'),
+    ('9','受講中'),
+    ('10','仮申込');
