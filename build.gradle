@@ -39,12 +39,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     //MySQLドライバ
-    runtimeOnly 'com.mysql:mysql-connector-j:8.0.33'
+    implementation 'com.mysql:mysql-connector-j:8.4.0'
     //MyBatis
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
-
-    //APサーバー(Tomcat)
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    
     //SpringBootTest
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     //MyBatisTest
