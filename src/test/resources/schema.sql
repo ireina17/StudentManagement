@@ -3,12 +3,12 @@ CREATE TABLE IF NOT EXISTS student
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     kana_name VARCHAR(50) NOT NULL,
-    nickname VARCHAR(50),
+    nickname VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    area VARCHAR(50),
+    area VARCHAR(50) NOT NULL,
     age INT,
     sex VARCHAR(10),
-    remark TEXT,
+    remark TEXT NOT NULL,
     is_Deleted boolean
 );
 
